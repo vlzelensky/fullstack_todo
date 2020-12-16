@@ -45,4 +45,14 @@ h1 {
   margin-bottom: 10px;
   border-radius: 5px;
   border-color: rgb(140, 122, 241);
+  margin-top: 10px;
+  height:20px;
+  padding: 0 5px;
+}
+
+.btn1 {
+  font-family: 'Sans-Serif';
+  font-size: 13px;
+  color: grey;
+  background-color: #fff;
 }

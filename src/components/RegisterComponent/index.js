@@ -1,6 +1,4 @@
 import React from 'react';
-
-
 class RegisterComponent extends React.Component {
 
     render() {
@@ -28,11 +26,11 @@ class RegisterComponent extends React.Component {
                 <input className='input' placeholder='Repeat password' type='password'></input>
             </div>
             <div className='btns'>
-                <button id="123123" className='btn1'>Back</button>
+                <button id="123123" className='btn1' onClick={this.props.changeStatus}>Back</button>
                 <button className='btn1'>Create account</button>
             </div>
         </div>
-    );
+        );
     }
   
 }
