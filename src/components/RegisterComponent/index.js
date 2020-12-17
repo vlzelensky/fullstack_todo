@@ -9,23 +9,32 @@ class RegisterComponent extends React.Component {
     repeatPassword: "",
   };
   saveUserData = async () => {
-    if (Object.values(this.state).some((value) => value === "")){
-        return;
+    if (Object.values(this.state).some((value) => value === "")) {
+      return;
     }
     if (this.state.password === this.state.repeatPassword) {
       try {
-        await axios.post("/api/user", {
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          email: this.state.email,
-          password: this.state.password,
-        });
-        this.setState({
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            repeatPassword: "",
+        await axios
+          .post("/api/register", {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            password: this.state.password,
+          })
+          .then((res) => {
+            if (res.status !== 200 && res.status !== 201) {
+              throw new Error(res.status);
+            } else {this.setState({
+              firstName: "",
+              lastName: "",
+              email: "",
+              password: "",
+              repeatPassword: "",
+            });
+          }
+          })
+          .catch((err) => {
+            alert(err + ", try again later");
           });
       } catch (e) {
         console.warn(e);
@@ -51,14 +60,14 @@ class RegisterComponent extends React.Component {
           ></input>
         </div>
         <div className="second-name">
-          <span>Second name</span>
+          <span>Last name</span>
           <input
             className="input"
             onChange={(event) =>
               this.setState({ lastName: event.target.value.trim() })
             }
             value={this.state.lastName}
-            placeholder="Second name"
+            placeholder="Last name"
           ></input>
         </div>
         <div className="email">
