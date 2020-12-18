@@ -1,5 +1,7 @@
 import React from "react";
+import { withRouter } from 'react-router';
 import axios from "axios";
+
 class RegisterComponent extends React.Component {
   state = {
     firstName: "",
@@ -33,8 +35,8 @@ class RegisterComponent extends React.Component {
             });
           }
           })
-          .catch((err) => {
-            alert(err + ", try again later");
+          .catch(e => {
+            alert(e + ", try again later");
           });
       } catch (e) {
         console.warn(e);
@@ -122,4 +124,4 @@ class RegisterComponent extends React.Component {
   }
 }
 
-export default RegisterComponent;
+export default withRouter(RegisterComponent);
