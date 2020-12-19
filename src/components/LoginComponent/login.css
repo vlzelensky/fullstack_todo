@@ -23,13 +23,13 @@
     justify-content: center;
     margin-bottom: 10px;
   }
-  
+/*   
   .btn1 {
     cursor: pointer;
     margin-right: 5px;
     border-color: rgb(140, 122, 241);
     border-radius: 5px;
-  }
+  } */
   
   .a1 {
     font-family: 'Sans-serif';
@@ -46,3 +46,9 @@
     text-decoration: underline;
   }
   
+  .MuiButton-root.red-button  {
+    color: red;
+    padding: 0;
+    line-height: 1.50;
+    margin-right: 10px;
+  }
