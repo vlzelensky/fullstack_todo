@@ -9,6 +9,8 @@
   
   .field {
     justify-content: center;
+    margin: 0 auto;
+    width: 250px;
   }
   
   
@@ -46,9 +48,37 @@
     text-decoration: underline;
   }
   
+  .a2 {
+      font-family: 'Sans-serif';
+      font-size: 15px;
+      color: rgb(229, 255, 0);
+      margin: auto;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    
+    .a2:hover {
+      text-decoration: underline;
+    }
+
   .MuiButton-root.red-button  {
     color: red;
     padding: 0;
     line-height: 1.50;
     margin-right: 10px;
+  }
+
+  .MuiFormControl-root.form {
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    display: block;
+  }
+
+  MuiTextField-root form.space {
+    color:rgb(229, 255, 0);
+  }
+
+  MuiFilledInput-root.form {
+    display: block;
   }

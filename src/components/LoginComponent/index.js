@@ -1,10 +1,13 @@
 import React from "react";
-import "./login.css";
-import RegisterComponent from "../RegisterComponent";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import axios from "axios";
 import { withRouter } from 'react-router';
+import axios from "axios";
+import { 
+  Button, 
+  TextField 
+} from "@material-ui/core";
+import RegisterComponent from "../RegisterComponent";
+import "./login.css";
+
 
 class LoginComponent extends React.Component {
   constructor(props) {
@@ -42,6 +45,10 @@ class LoginComponent extends React.Component {
     }
   };
 
+  renderChangePassword = () => {
+    this.props.history.push('/change_password');
+  }
+
   renderLogin = () => {
     return (
       <div className="main-box">
@@ -51,6 +58,7 @@ class LoginComponent extends React.Component {
             id="standard-basic"
             variant="filled"
             label="Email"
+            className="form"
             onChange={(event) =>
               this.setState({ email: event.target.value.trim() })
             }
@@ -62,6 +70,7 @@ class LoginComponent extends React.Component {
             type="password"
             variant="filled"
             label="Password"
+            className="form"
             onChange={(event) =>
               this.setState({ password: event.target.value.trim() })
             }
@@ -77,10 +86,11 @@ class LoginComponent extends React.Component {
             Sign In
           </Button>
           <span>or</span>
-          <span href="/login" className="a1" onClick={this.changeStatus}>
+          <span className="a1" onClick={this.changeStatus}>
             create an account
           </span>
         </div>
+        <span className="a2" onClick={this.renderChangePassword}>forgot your password?</span>
       </div>
     );
   };
