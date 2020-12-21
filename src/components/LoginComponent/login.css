@@ -4,7 +4,7 @@
   span {
     display: block;
     text-align: center;
-    color: #fff;
+    color: rgb(118, 118, 118);
   }
   
   .field {
@@ -25,14 +25,7 @@
     justify-content: center;
     margin-bottom: 10px;
   }
-/*   
-  .btn1 {
-    cursor: pointer;
-    margin-right: 5px;
-    border-color: rgb(140, 122, 241);
-    border-radius: 5px;
-  } */
-  
+
   .a1 {
     font-family: 'Sans-serif';
     font-size: 15px;
@@ -61,9 +54,8 @@
       text-decoration: underline;
     }
 
-  .MuiButton-root.red-button  {
-    color: red;
-    padding: 0;
+  .MuiButton-root.btn  {
+    color: rgba(0, 0, 0, 0.87);
     line-height: 1.50;
     margin-right: 10px;
   }
@@ -71,9 +63,14 @@
   .MuiFormControl-root.form {
     background-color:#fff;
     border-radius: 5px;
-    margin: auto;
-    display: block;
+    display: flex;
+    margin-bottom: 10px;
   }
+
+  .MuiFilledInput-input {
+    padding: 12px, 12px, 10px;
+  }
+  
 
   MuiTextField-root form.space {
     color:rgb(229, 255, 0);
@@ -81,4 +78,13 @@
 
   MuiFilledInput-root.form {
     display: block;
+
+  }
+
+  .MuiFilledInput-underline:before {
+    display: none;
+  }
+
+  .MuiFilledInput-underline:after {
+    display: none;
   }

@@ -15,7 +15,7 @@ class LoginComponent extends React.Component {
     this.state = {
       status: true,
       email: "",
-      password: "",
+      password: ""
     };
   }
 
@@ -32,7 +32,7 @@ class LoginComponent extends React.Component {
       await axios
         .post("api/login", {
           email: email,
-          password: password,
+          password: password
         })
         .then((res) => {
           if (res.status !== 200 && res.status !== 201) {
@@ -55,6 +55,7 @@ class LoginComponent extends React.Component {
         <h1>login</h1>
         <div className="field">
           <TextField
+            autoComplete="off"
             id="standard-basic"
             variant="filled"
             label="Email"
@@ -81,7 +82,7 @@ class LoginComponent extends React.Component {
             variant="contained"
             onClick={this.signIn}
             color="default"
-            className="red-button"
+            className="btn"
           >
             Sign In
           </Button>
