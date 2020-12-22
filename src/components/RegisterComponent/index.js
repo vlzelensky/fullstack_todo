@@ -13,9 +13,16 @@ class RegisterComponent extends React.Component {
   };
   saveUserData = async () => {
     const emailSample = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+    const passwordSample = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/;
     if (!emailSample.test(this.state.email)) {
       alert("Enter valid email");
       return;
+    }
+    if (!passwordSample.test(this.state.password)) {
+      alert(
+        "Password must contain only latin letters, at least 1 uppercase letter, 1 lowercase letter, 1 numeral"
+        );
+        return;
     }
     if (Object.values(this.state).some((value) => value === "")) {
       return;
@@ -57,7 +64,7 @@ class RegisterComponent extends React.Component {
         <h1>registration</h1>
         <div className="field">
           <TextField
-            autoComplete="none"
+            autoComplete="off"
             variant="filled"
             label="First name"
             className="form"
