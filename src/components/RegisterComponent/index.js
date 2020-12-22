@@ -1,6 +1,7 @@
 import React from "react";
-import { withRouter } from 'react-router';
+import { withRouter } from "react-router";
 import axios from "axios";
+import { Button, TextField } from "@material-ui/core";
 
 class RegisterComponent extends React.Component {
   state = {
@@ -11,7 +12,16 @@ class RegisterComponent extends React.Component {
     repeatPassword: "",
   };
   saveUserData = async () => {
+    const emailSample = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+    if (!emailSample.test(this.state.email)) {
+      alert("Enter valid email");
+      return;
+    }
     if (Object.values(this.state).some((value) => value === "")) {
+      return;
+    }
+    if (this.state.password.length < 6) {
+      alert("password length must be more than 6 characters");
       return;
     }
     if (this.state.password === this.state.repeatPassword) {
@@ -26,16 +36,11 @@ class RegisterComponent extends React.Component {
           .then((res) => {
             if (res.status !== 200 && res.status !== 201) {
               throw new Error(res.status);
-            } else {this.setState({
-              firstName: "",
-              lastName: "",
-              email: "",
-              password: "",
-              repeatPassword: "",
-            });
-          }
+            } else {
+              this.props.history.push("/todo");
+            }
           })
-          .catch(e => {
+          .catch((e) => {
             alert(e + ", try again later");
           });
       } catch (e) {
@@ -50,74 +55,85 @@ class RegisterComponent extends React.Component {
     return (
       <div className="main-box">
         <h1>registration</h1>
-        <div className="first-name">
-          <span>First name</span>
-          <input
-            className="input"
+        <div className="field">
+          <TextField
+            autoComplete="none"
+            variant="filled"
+            label="First name"
+            className="form"
             onChange={(event) =>
               this.setState({ firstName: event.target.value.trim() })
             }
             value={this.state.firstName}
-            placeholder="First name"
-          ></input>
+          />
         </div>
-        <div className="second-name">
-          <span>Last name</span>
-          <input
-            className="input"
+        <div className="field">
+          <TextField
+            autoComplete="none"
+            variant="filled"
+            label="Last name"
+            className="form"
             onChange={(event) =>
               this.setState({ lastName: event.target.value.trim() })
             }
             value={this.state.lastName}
-            placeholder="Last name"
-          ></input>
+          />
         </div>
-        <div className="email">
-          <span>Email</span>
-          <input
-            className="input"
+        <div className="field">
+          <TextField
+            autoComplete="none"
+            variant="filled"
+            label="Email"
+            className="form"
             onChange={(event) =>
               this.setState({ email: event.target.value.trim() })
             }
             value={this.state.email}
-            placeholder="Email"
-          ></input>
+          />
         </div>
-        <div className="password">
-          <span>Password</span>
-          <input
-            className="input"
+        <div className="field">
+          <TextField
+            autoComplete="none"
+            variant="filled"
+            label="Password"
+            type="password"
+            className="form"
             onChange={(event) =>
               this.setState({ password: event.target.value.trim() })
             }
-            placeholder="Password"
             value={this.state.password}
-            type="password"
-          ></input>
+          />
         </div>
-        <div className="password">
-          <span>Repeat Password</span>
-          <input
-            className="input"
+        <div className="field">
+          <TextField
+            autoComplete="none"
+            variant="filled"
+            label="Repeat password"
+            type="password"
+            className="form"
             onChange={(event) =>
               this.setState({ repeatPassword: event.target.value.trim() })
             }
-            placeholder="Repeat password"
             value={this.state.repeatPassword}
-            type="password"
-          ></input>
+          />
         </div>
         <div className="btns">
-          <button
-            id="123123"
-            className="btn1"
+          <Button
+            variant="contained"
+            color="default"
+            className="btn reg_btn"
             onClick={this.props.changeStatus}
           >
             Back
-          </button>
-          <button className="btn1" onClick={this.saveUserData}>
+          </Button>
+          <Button
+            variant="contained"
+            color="default"
+            className="btn reg_btn" 
+            onClick={this.saveUserData}
+            >
             Create account
-          </button>
+          </Button>
         </div>
       </div>
     );
