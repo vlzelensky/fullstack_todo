@@ -61,3 +61,8 @@
 .main-box .new {
     display: flex;
 }
+
+.MuiButtonBase-root.addTodo {
+    margin: 0 auto;
+    display: flex;
+}

@@ -1,12 +1,22 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
+import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import "./index.css";
 import TodoList from "./todoList";
 
 class TodoComponent extends React.Component {
+  state = {
+    todos: []
+  };
+
+    createTodo = () => {
+      this.setState((state) =>
+        this.state.todos.push({})
+      );
+    };
+
   render() {
-    const todos = [];
     return (
       <div className="main">
         <div className="menu"></div>
@@ -16,7 +26,7 @@ class TodoComponent extends React.Component {
               <Button color="default" className="open-menu">
                 <MenuIcon />
               </Button>
-              <h1>to-do lists</h1>
+              <h1>to-do list</h1>
             </div>
             <div className="user">
               <h className="user-name">User Name</h>
@@ -25,7 +35,15 @@ class TodoComponent extends React.Component {
               </Button>
             </div>
           </div>
-          <TodoList todos={todos} />
+          <TodoList todos={this.state.todos} />
+          <Button
+            className="addTodo"
+            variant="contained"
+            color="default"
+            onClick={this.createTodo}
+          >
+            <AddCircleOutlineOutlinedIcon />
+          </Button>
         </div>
       </div>
     );
