@@ -7,6 +7,7 @@ import TodoList from "./todoList";
 
 class TodoComponent extends React.Component {
   state = {
+    editMode: true,
     todos: []
   };
 
