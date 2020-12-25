@@ -1,5 +1,9 @@
-.main {
+/* .main {
     display: flex;
+} */
+.container {
+    height: 100vh;
+    margin: 0 200px;
 }
 
 .menu {
