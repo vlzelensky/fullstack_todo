@@ -2,18 +2,20 @@ import React from "react";
 import { Checkbox, TextField } from "@material-ui/core";
 
 export default function NewTask(props) {
-  return props.tasks.map((todoItem) => {
+  return props.tasks.map((todoItem, index) => {
      return (
       <div>
         <Checkbox
-          onChange={() => {
+          onClick={() => {
             todoItem.checked = !todoItem.checked;
+            props.saveTaskValue(todoItem, index);
           }}
         />
         <TextField
+          placeholder="New task"
           onChange={(event) => {
             todoItem.text = event.target.value.trim();
-            todoItem.checked = false;
+            props.saveTaskValue(todoItem, index);
           }}
         />
       </div>
