@@ -1,12 +1,33 @@
 import React from "react";
+import axios from "axios";
 import { Button } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import "./index.css";
+import Lists from "./lists.js";
 
 class TodoComponent extends React.Component {
+  state = {
+    todoLists: [],
+    tasks: [],
+  };
+
   createNewList = () => {
     this.props.history.push("/new_list");
+  };
+
+  componentDidMount = () => {
+    this.getTodoList();
+  };
+
+  getTodoList = async (res) => {
+    try {
+      const res = await axios.get("/api/todolist");
+      this.setState({ todoLists: res.data.lists });
+      this.setState({ tasks: res.data.tasks });
+    } catch (e) {
+      console.warn(e.status);
+    }
   };
 
   render() {
@@ -24,19 +45,32 @@ class TodoComponent extends React.Component {
               </div>
               <div className="user">
                 <h className="user-name">User Name</h>
-                <Button variant="contained" color="default" className="btn">
+                <Button
+                  onClick={() => {
+                    console.log(this.state.todoLists);
+                  }}
+                  variant="contained"
+                  color="default"
+                  className="btn"
+                >
                   Log Out
                 </Button>
               </div>
             </div>
-            <Button
-              className="addTodo"
-              variant="contained"
-              color="default"
-              onClick={this.createNewList}
-            >
-              <AddCircleOutlineOutlinedIcon />
-            </Button>
+            <div className="lists-container">
+              <Lists
+                tasks={this.state.tasks}
+                todoLists={this.state.todoLists}
+              />
+              <Button
+                className="addTodo"
+                variant="contained"
+                color="default"
+                onClick={this.createNewList}
+              >
+                <AddCircleOutlineOutlinedIcon />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
