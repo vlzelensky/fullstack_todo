@@ -8,10 +8,12 @@ import Lists from "./lists.js";
 
 class TodoComponent extends React.Component {
   state = {
-    todoLists: [],
-    tasks: [],
+    lists: [],
   };
 
+  editList = () => {
+    this.props.history.push("/todo:id");
+  };
 
   createNewList = () => {
     this.props.history.push("/new_list");
@@ -24,14 +26,14 @@ class TodoComponent extends React.Component {
   getTodoList = async (res) => {
     try {
       const res = await axios.get("/api/todolist");
-      this.setState({ todoLists: res.data.lists,  tasks: res.data.tasks });
+      this.setState({ lists: res.data });
     } catch (e) {
       console.warn(e.status);
     }
   };
 
   render() {
-    const {todoLists, tasks} = this.state
+    const { lists } = this.state;
     return (
       <div className="main">
         <div className="container">
@@ -60,8 +62,7 @@ class TodoComponent extends React.Component {
             </div>
             <div className="lists-container">
               <Lists
-                tasks={tasks}
-                todoLists={todoLists}
+                lists={lists}
               />
               <Button
                 className="addTodo"
