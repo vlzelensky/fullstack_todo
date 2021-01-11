@@ -37,7 +37,8 @@ class LoginComponent extends React.Component {
         .then((res) => {
           if (res.status !== 200 && res.status !== 201) {
             throw new Error(res.status);
-          } 
+          }
+          this.props.saveUserName(res.data.firstName, res.data.lastName);
           this.props.history.push('/todo');
         });
     } catch (e) {

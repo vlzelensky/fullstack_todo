@@ -11,7 +11,13 @@ export default function Lists(props) {
           <Tasks tasks={list.tasks} />
         </div>
         <div className="show-more-btn">
-          <Button>Show more</Button>
+          <Button
+            onClick={() => {
+              props.editList(list._id);
+            }}
+          > 
+            Show more
+          </Button>
         </div>
       </div>
     );

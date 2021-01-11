@@ -1,4 +1,5 @@
 import React from "react";
+import {withRouter} from "react-router";
 import axios from "axios";
 import { Button } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -104,4 +105,4 @@ class NewListComponent extends React.Component {
   }
 }
 
-export default NewListComponent;
+export default withRouter(NewListComponent);
