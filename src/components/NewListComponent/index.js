@@ -39,11 +39,13 @@ class NewListComponent extends React.Component {
 
   saveTaskValue = (todoItem, i) => {
     const { tasks } = this.state;
+    console.log(tasks);
+
     this.setState({
       tasks: tasks.map((task, index) =>
         index === i ? (task = todoItem) : task
       ),
-    });
+    })
   };
 
   changeTitle = (event) => {

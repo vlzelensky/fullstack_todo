@@ -36,6 +36,9 @@ h1 {
   border: none;
   padding: 10px;
   user-select: none;
+  z-index: 0;
+  position: relative;
+
 }
 
 .input {
