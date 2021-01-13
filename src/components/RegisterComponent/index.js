@@ -1,5 +1,4 @@
 import React from "react";
-import { withRouter } from "react-router";
 import axios from "axios";
 import { Button, TextField } from "@material-ui/core";
 
@@ -147,4 +146,4 @@ class RegisterComponent extends React.Component {
   }
 }
 
-export default withRouter(RegisterComponent);
+export default RegisterComponent;

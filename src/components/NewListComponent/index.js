@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router";
 import axios from "axios";
 import { Button } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -38,6 +39,8 @@ class NewListComponent extends React.Component {
 
   saveTaskValue = (todoItem, i) => {
     const { tasks } = this.state;
+    console.log(tasks);
+
     this.setState({
       tasks: tasks.map((task, index) =>
         index === i ? (task = todoItem) : task
@@ -58,7 +61,6 @@ class NewListComponent extends React.Component {
           checked: false,
         })
       );
-      console.log(this.state);
     }
   };
 
@@ -104,4 +106,4 @@ class NewListComponent extends React.Component {
   }
 }
 
-export default NewListComponent;
+export default withRouter(NewListComponent);
