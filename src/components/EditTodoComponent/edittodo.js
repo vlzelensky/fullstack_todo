@@ -1,10 +1,12 @@
 import React from "react";
 import axios from "axios";
-import { Button,
-    TextField,
-    DialogTitle,
-    Dialog 
-  } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  DialogTitle,
+  Dialog,
+  Checkbox,
+} from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -78,6 +80,43 @@ class EditTodoPage extends React.Component {
     this.setState({ isLoading: false });
   };
 
+  deleteList = async () => {
+    const listId = this.props.match.params.id;
+    try {
+      await axios.delete("/api/editlist/" + listId);
+      this.props.history.push("/todo");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  deleteTask = async (id) => {
+    try {
+      await axios.delete("/api/deletetask/" + id);
+      this.getTodoList();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  addNewTask = (event) => {
+    const idList = this.props.match.params.id
+    if (event.key === "Enter") {
+      let { tasks } = this.state.list;
+      console.log(tasks)
+      const value = event.target.value.trim()
+      this.setState((state) => {
+        tasks.push({
+          text: value,
+          checked: false,
+          id_list: idList
+        });
+      });
+      event.preventDefault();
+      event.target.value = ""
+    }
+  };
+
   render() {
     if (this.state.isLoading === true) {
       return (
@@ -113,7 +152,7 @@ class EditTodoPage extends React.Component {
     } else {
       const { tasks } = this.state.list;
       const { title } = this.state.list.list;
-      const { editMode } = this.state
+      const { editMode } = this.state;
       return (
         <div className="main">
           <div className="container">
@@ -135,13 +174,23 @@ class EditTodoPage extends React.Component {
               </div>
               <div className="main-box">
                 <h1>{title}</h1>
-                <Button onClick={this.activateEditMode}>Edit</Button>
+                <div className="buttons">
+                  <Button onClick={this.activateEditMode}>Edit</Button>
+                  <Button onClick={this.deleteList}>Delete</Button>
+                </div>
+
                 <Tasks
+                  deleteTask={this.deleteTask}
                   editMode={editMode}
                   changeTaskChecked={this.changeTaskChecked}
                   changeTaskText={this.changeTaskText}
                   tasks={tasks}
                 />
+                <div className="input">
+                  <TextField
+                    onKeyDown={this.addNewTask}
+                  />
+                </div>
                 <Dialog
                   onClose={this.handleClose}
                   aria-labelledby="simple-dialog-title"
