@@ -1,6 +1,10 @@
 import React from "react";
 import axios from "axios";
-import { Button, TextField, DialogTitle, Dialog } from "@material-ui/core";
+import { Button,
+    TextField,
+    DialogTitle,
+    Dialog 
+  } from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -109,6 +113,7 @@ class EditTodoPage extends React.Component {
     } else {
       const { tasks } = this.state.list;
       const { title } = this.state.list.list;
+      const { editMode } = this.state
       return (
         <div className="main">
           <div className="container">
@@ -129,10 +134,10 @@ class EditTodoPage extends React.Component {
                 </div>
               </div>
               <div className="main-box">
-                <h1>{ title}</h1>
+                <h1>{title}</h1>
                 <Button onClick={this.activateEditMode}>Edit</Button>
                 <Tasks
-                  editMode={this.state.editMode}
+                  editMode={editMode}
                   changeTaskChecked={this.changeTaskChecked}
                   changeTaskText={this.changeTaskText}
                   tasks={tasks}
@@ -140,19 +145,19 @@ class EditTodoPage extends React.Component {
                 <Dialog
                   onClose={this.handleClose}
                   aria-labelledby="simple-dialog-title"
-                  open={this.state.editMode}
+                  open={editMode}
                 >
                   <DialogTitle id="simple-dialog-title">
                     <TextField
                       onChange={this.changeTitle}
-                      value={this.state.list.list.title}
+                      value={title}
                     ></TextField>
                   </DialogTitle>
                   <EditTasks
                     changeTaskText={this.changeTaskText}
                     changeTaskChecked={this.changeTaskChecked}
-                    editMode={this.state.editMode}
-                    tasks={this.state.list.tasks}
+                    editMode={editMode}
+                    tasks={tasks}
                   />
                   <Button onClick={this.activateEditMode}>Cancel</Button>
                   <Button onClick={() => this.activateEditMode}>Save</Button>
