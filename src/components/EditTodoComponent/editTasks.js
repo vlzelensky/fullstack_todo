@@ -1,18 +1,24 @@
-import React from 'react';
-import {TextField, Checkbox} from "@material-ui/core";
+import React from "react";
+import { TextField, Checkbox } from "@material-ui/core";
 
 export default function EditTasks(props) {
-    if(props.editMode) {
-        return props.tasks.map((task, index) => {
-            return (
-            <div className="edit-box">
-                <Checkbox onChange={(event) => props.changeTaskChecked(!task.checked, index)} checked={task.checked}></Checkbox>
-                <TextField onChange={(event) => props.changeTaskText(event.target.value.trim(), index)} value={task.text}></TextField>
-            </div>
-        )
-        })
-        
-    } else {
-        return <div></div>
-    }
+  return (
+    props.editMode &&
+    props.tasks.map((task, index) => {
+      return (
+        <div className="edit-box">
+          <Checkbox
+            onChange={(event) => props.changeTaskChecked(!task.checked, index)}
+            checked={task.checked}
+          ></Checkbox>
+          <TextField
+            onChange={(event) =>
+              props.changeTaskText(event.target.value.trim(), index)
+            }
+            value={task.text}
+          ></TextField>
+        </div>
+      );
+    })
+  );
 }

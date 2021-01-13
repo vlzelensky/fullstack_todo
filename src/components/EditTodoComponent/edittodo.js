@@ -1,16 +1,9 @@
 import React from "react";
 import axios from "axios";
-import { 
-  Button, 
-  TextField, 
-  DialogTitle, 
-  Dialog 
-} from "@material-ui/core";
+import { Button, TextField, DialogTitle, Dialog } from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import NewTask from "../NewListComponent/newtask";
-import ChooseTitle from "../NewListComponent/chooser";
 import Tasks from "./tasks.js";
 import EditTasks from "./editTasks";
 import "./index.css";
@@ -20,7 +13,6 @@ class EditTodoPage extends React.Component {
     list: {},
     isLoading: true,
     editMode: false,
-    
   };
 
   componentDidMount = () => {
@@ -30,9 +22,6 @@ class EditTodoPage extends React.Component {
   saveChanges = async (res) => {
     const { list, tasks } = this.state.list;
     const listId = this.props.match.params.id;
-    if (Object.values(this.state.list).some((value) => !value)) {
-      return;
-    }
     try {
       await axios.put("/api/editlist/" + listId, {
         list,
@@ -51,19 +40,14 @@ class EditTodoPage extends React.Component {
     this.setState({ editMode: !this.state.editMode });
   };
 
-  changeTitle = (event) => {
-    this.setState({
-      list: {
-        list: {
-          title: event.target.value.trim(),
-        },
-      },
-    });
-  };
+  // changeTitle = (event) => {
+  //   console.log(this.state.list.list.title)
+  //   this.setState({ list: { list: {title: event.target.value.trim()}}})
+  // };
 
   handleClose = () => {
-    this.setState({editMode: false})
-  }
+    this.setState({ editMode: false });
+  };
 
   changeTaskText = (text, i) => {
     const { tasks } = this.state.list;
@@ -123,6 +107,8 @@ class EditTodoPage extends React.Component {
         </div>
       );
     } else {
+      const { tasks } = this.state.list;
+      const { title } = this.state.list.list;
       return (
         <div className="main">
           <div className="container">
@@ -143,13 +129,13 @@ class EditTodoPage extends React.Component {
                 </div>
               </div>
               <div className="main-box">
-                <h1>{this.state.list.list.title}</h1>
+                <h1>{ title}</h1>
                 <Button onClick={this.activateEditMode}>Edit</Button>
                 <Tasks
                   editMode={this.state.editMode}
                   changeTaskChecked={this.changeTaskChecked}
                   changeTaskText={this.changeTaskText}
-                  tasks={this.state.list.tasks}
+                  tasks={tasks}
                 />
                 <Dialog
                   onClose={this.handleClose}
@@ -157,7 +143,10 @@ class EditTodoPage extends React.Component {
                   open={this.state.editMode}
                 >
                   <DialogTitle id="simple-dialog-title">
-                    <TextField value={this.state.list.list.title}></TextField>
+                    <TextField
+                      onChange={this.changeTitle}
+                      value={this.state.list.list.title}
+                    ></TextField>
                   </DialogTitle>
                   <EditTasks
                     changeTaskText={this.changeTaskText}
@@ -166,7 +155,7 @@ class EditTodoPage extends React.Component {
                     tasks={this.state.list.tasks}
                   />
                   <Button onClick={this.activateEditMode}>Cancel</Button>
-                  <Button>Save</Button>
+                  <Button onClick={() => this.activateEditMode}>Save</Button>
                 </Dialog>
 
                 <div className="save-btn-container">

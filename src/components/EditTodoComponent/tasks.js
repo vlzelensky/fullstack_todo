@@ -1,4 +1,4 @@
-import { Checkbox, TextField } from "@material-ui/core";
+import { Checkbox } from "@material-ui/core";
 
 export default function Tasks(props) {
     return props.tasks.map((task, i) => {
