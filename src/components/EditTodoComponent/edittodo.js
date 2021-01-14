@@ -100,20 +100,19 @@ class EditTodoPage extends React.Component {
   };
 
   addNewTask = (event) => {
-    const idList = this.props.match.params.id
+    const { id } = this.props.match.params;
     if (event.key === "Enter") {
       let { tasks } = this.state.list;
-      console.log(tasks)
-      const value = event.target.value.trim()
+      const value = event.target.value.trim();
       this.setState((state) => {
         tasks.push({
           text: value,
           checked: false,
-          id_list: idList
+          id_list: id,
         });
       });
       event.preventDefault();
-      event.target.value = ""
+      event.target.value = "";
     }
   };
 
@@ -150,9 +149,7 @@ class EditTodoPage extends React.Component {
         </div>
       );
     } else {
-      const { tasks } = this.state.list;
-      const { title } = this.state.list.list;
-      const { editMode } = this.state;
+      const { editMode, list: { tasks, list: { title } } } = this.state;
       return (
         <div className="main">
           <div className="container">
@@ -187,9 +184,7 @@ class EditTodoPage extends React.Component {
                   tasks={tasks}
                 />
                 <div className="input">
-                  <TextField
-                    onKeyDown={this.addNewTask}
-                  />
+                  <TextField onKeyDown={this.addNewTask} />
                 </div>
                 <Dialog
                   onClose={this.handleClose}
