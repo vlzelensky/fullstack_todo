@@ -21,3 +21,14 @@
     display: flex;
     justify-content: center;
 }
+
+.new-task {
+    display: flex;
+    justify-content: center;
+    padding-left: 20px;
+}
+
+.input-title {
+    display: flex;
+    justify-content: center;
+}

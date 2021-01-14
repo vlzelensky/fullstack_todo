@@ -1,5 +1,5 @@
 import React from "react";
-import { Checkbox, Button } from "@material-ui/core";
+import { Checkbox, Button, TextField } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 
 export default function Tasks(props) {
@@ -10,7 +10,7 @@ export default function Tasks(props) {
             checked={task.checked}
             onChange={() => props.changeTaskChecked(!task.checked, i)}
           />
-          <span>{task.text}</span>
+          <TextField disabled={true} value={task.text}></TextField>
           <Button onClick={() => props.deleteTask(task._id)}><DeleteIcon/></Button>
         </div>
       );

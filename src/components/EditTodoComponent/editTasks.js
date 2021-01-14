@@ -7,14 +7,12 @@ export default function EditTasks(props) {
       return (
         <div className="edit-box">
           <Checkbox
-            onChange={(event) => props.changeTaskChecked(!task.checked, index)}
-            checked={task.checked}
+            onChange={(event) => props.addEditedChecked((event.target.value),(task._id), (event.target.checked))}
+            defaultChecked={task.checked}
           ></Checkbox>
           <TextField
-            onChange={(event) =>
-              props.changeTaskText(event.target.value.trim(), index)
-            }
-            value={task.text}
+            onChange={(event) => props.addEditedText((event.target.value), (task._id), (task.checked))}
+            defaultValue={task.text}
           ></TextField>
         </div>
       );
