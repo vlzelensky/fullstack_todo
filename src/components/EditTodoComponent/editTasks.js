@@ -1,6 +1,5 @@
 import React from "react";
 import { TextField, Checkbox } from "@material-ui/core";
-
 export default function EditTasks(props) {
   return (
     props.editMode &&

@@ -1,13 +1,16 @@
 import React from "react";
 import { Button } from "@material-ui/core";
+import Drawer from "@material-ui/core/Drawer";
 import MenuIcon from "@material-ui/icons/Menu";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import axios from "axios";
 import Lists from "./lists.js";
+import Titles from "./titles.js"
 
 class MainComponent extends React.Component {
   state = {
     lists: [],
+    open: false,
   };
 
   editList = (id) => {
@@ -31,28 +34,41 @@ class MainComponent extends React.Component {
     }
   };
 
+  toggleDrawer = () => {
+    this.setState({ open: !this.state.open });
+  };
+
   render() {
-    const { lists } = this.state;
+    const { lists, open } = this.state;
 
     return (
       <div className="main">
         <div className="container">
-          <div className="menu"></div>
+          <Drawer
+            anchor="left"
+            open={open}
+            onClose={() => this.setState({ open: false })}
+          >
+            <div>IMAGE</div>
+            <div className="titles">
+              <Titles lists={lists} />
+            </div>
+          </Drawer>
           <div className="content">
             <div className="top-bar">
               <div className="logo">
-                <Button color="default" className="open-menu">
+                <Button
+                  onClick={this.toggleDrawer}
+                  color="default"
+                  className="open-menu"
+                >
                   <MenuIcon />
                 </Button>
                 <h1>to-do list</h1>
               </div>
               <div className="user">
                 <h className="user-name">{this.props.userName}</h>
-                <Button
-                  variant="contained"
-                  color="default"
-                  className="btn"
-                >
+                <Button variant="contained" color="default" className="btn">
                   Log Out
                 </Button>
               </div>
