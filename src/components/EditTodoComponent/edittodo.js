@@ -1,13 +1,7 @@
 import React from "react";
 import axios from "axios";
-import {
-  Button,
-  TextField,
-  DialogTitle,
-  Dialog,
-  Checkbox,
-} from "@material-ui/core";
-
+import { Button, TextField, DialogTitle, Dialog } from "@material-ui/core";
+import AddBoxIcon from "@material-ui/icons/AddBox";
 import MenuIcon from "@material-ui/icons/Menu";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Tasks from "./tasks.js";
@@ -17,55 +11,114 @@ import "./index.css";
 class EditTodoPage extends React.Component {
   state = {
     list: {},
+    tasks: {},
+    editing: [],
+    editingTitle: {},
     isLoading: true,
     editMode: false,
+  };
+
+  addEditedTitle = (title) => {
+    this.setState({editingTitle: title})
+  }
+  
+  addEditedChecked = (text, _id, checked) => {
+    this.setState(({editing}) => {
+      const editingElement = editing.find((element) => element._id === _id);
+      if (editingElement === undefined) {
+        return {
+          editing: [
+            ...editing,
+            {
+              text,
+              checked,
+              _id,
+              list_id: this.props.match.params.id,
+            },
+          ],
+        };
+      } else {
+        return {
+          editing: editing.map((element) =>
+            element._id === _id ? { ...element, checked } : element
+          ),
+        };
+      }
+    });
+  };
+  
+  addEditedText = (text, _id, checked) => {
+    this.setState(({editing}) => {
+      const editingElement = editing.find((element) => element._id === _id);
+      if (editingElement === undefined) {
+        return {
+          editing: [
+            ...editing,
+            {
+              text,
+              checked,
+              _id,
+              list_id: this.props.match.params.id,
+            },
+          ],
+        };
+      } else {
+        return {
+          editing: editing.map((element) =>
+            element._id === _id ? { ...element, text } : element
+          ),
+        };
+      }
+    });
   };
 
   componentDidMount = () => {
     this.getTodoList();
   };
 
-  saveChanges = async (res) => {
-    const { list, tasks } = this.state.list;
+  saveChanges = async () => {
+    const { editing, editingTitle } = this.state;
     const listId = this.props.match.params.id;
     try {
-      await axios.put("/api/editlist/" + listId, {
-        list,
-        tasks,
+      const res = await axios.put("/api/editlist/" + listId, {
+        editing,
+        editingTitle
       });
       if (res.status !== 201) {
         throw new Error(res.status);
       }
     } catch (e) {
-      console.log(e);
+      console.log((e));
     }
-    this.props.history.push("/todo");
+    this.setState({editMode: false});
+    this.getTodoList();
   };
 
   activateEditMode = () => {
     this.setState({ editMode: !this.state.editMode });
   };
 
-  // changeTitle = (event) => {
-  //   console.log(this.state.list.list.title)
-  //   this.setState({ list: { list: {title: event.target.value.trim()}}})
-  // };
+  changeTitle = (event) => {
+    this.setState((state) => ({
+      list: { title: event.target.value },
+    }));
+  };
 
   handleClose = () => {
     this.setState({ editMode: false });
   };
 
   changeTaskText = (text, i) => {
-    const { tasks } = this.state.list;
+    const { tasks } = this.state;
     this.setState({
-      tasks: tasks.map((e, index) => (index === i ? (e.text = text) : e)),
+      tasks: tasks.map((e, index) => (index === i ? { ...e, text } : e)),
     });
   };
 
   changeTaskChecked = (checked, i) => {
-    const { tasks } = this.state.list;
+    const { tasks } = this.state;
     this.setState({
-      tasks: tasks.map((e, index) => (index === i ? (e.checked = checked) : e)),
+      tasks: tasks.map((e, index) => (index === i ? { ...e, checked } : e)),
     });
   };
 
@@ -73,7 +126,7 @@ class EditTodoPage extends React.Component {
     try {
       const listId = this.props.match.params.id;
       const res = await axios.get("/api/editlist/" + listId);
-      this.setState({ list: res.data });
+      this.setState({ list: res.data.list, tasks: res.data.tasks });
     } catch (e) {
       console.error(e);
     }
@@ -102,16 +155,18 @@ class EditTodoPage extends React.Component {
   addNewTask = (event) => {
     const { id } = this.props.match.params;
     if (event.key === "Enter") {
-      let { tasks } = this.state.list;
       const value = event.target.value.trim();
-      this.setState((state) => {
-        tasks.push({
-          text: value,
-          checked: false,
-          id_list: id,
-        });
-      });
-      event.preventDefault();
+      const { tasks } = this.state;
+      this.setState((state) => ({
+        tasks: [
+          ...tasks,
+          {
+            text: value,
+            checked: false,
+            id_list: id,
+          },
+        ],
+      }));
       event.target.value = "";
     }
   };
@@ -149,7 +204,11 @@ class EditTodoPage extends React.Component {
         </div>
       );
     } else {
-      const { editMode, list: { tasks, list: { title } } } = this.state;
+      const {
+        editMode,
+        tasks,
+        list: { title },
+      } = this.state;
       return (
         <div className="main">
           <div className="container">
@@ -170,7 +229,14 @@ class EditTodoPage extends React.Component {
                 </div>
               </div>
               <div className="main-box">
-                <h1>{title}</h1>
+                <div className="input-title">
+                  <TextField
+                    className="input-title-editlist"
+                    defaultValue={title}
+                    disabled
+                  ></TextField>
+                </div>
+
                 <div className="buttons">
                   <Button onClick={this.activateEditMode}>Edit</Button>
                   <Button onClick={this.deleteList}>Delete</Button>
@@ -183,8 +249,11 @@ class EditTodoPage extends React.Component {
                   changeTaskText={this.changeTaskText}
                   tasks={tasks}
                 />
-                <div className="input">
+                <div className="new-task">
                   <TextField onKeyDown={this.addNewTask} />
+                  <Button>
+                    <AddBoxIcon />
+                  </Button>
                 </div>
                 <Dialog
                   onClose={this.handleClose}
@@ -193,18 +262,20 @@ class EditTodoPage extends React.Component {
                 >
                   <DialogTitle id="simple-dialog-title">
                     <TextField
-                      onChange={this.changeTitle}
-                      value={title}
+                      onChange={(event) => this.addEditedTitle(event.target.value)}
+                      defaultValue={title}
                     ></TextField>
                   </DialogTitle>
                   <EditTasks
+                    addEditedChecked={this.addEditedChecked}
+                    addEditedText={this.addEditedText}
                     changeTaskText={this.changeTaskText}
                     changeTaskChecked={this.changeTaskChecked}
                     editMode={editMode}
                     tasks={tasks}
                   />
                   <Button onClick={this.activateEditMode}>Cancel</Button>
-                  <Button onClick={() => this.activateEditMode}>Save</Button>
+                  <Button onClick={this.saveChanges}>Save</Button>
                 </Dialog>
 
                 <div className="save-btn-container">
@@ -214,7 +285,7 @@ class EditTodoPage extends React.Component {
                   >
                     Cancel
                   </Button>
-                  <Button onClick={this.saveChanges} className="btn">
+                  <Button className="btn">
                     Save
                   </Button>
                 </div>
