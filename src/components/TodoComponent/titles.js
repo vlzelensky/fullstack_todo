@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {Link} from 'react';
 
 
 export default function Titles(props) {
     return props.lists.map((list) => {
-        return <div>{list.title}</div>
+        return <Link to={"/todo/"}>{list.title}</Link>
     })
 }
