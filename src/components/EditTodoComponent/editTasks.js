@@ -5,16 +5,16 @@ export default function EditTasks(props) {
     props.editMode &&
     props.tasks.map((task) => {
       return (
-        <div className="edit-box">
+        <div key={task._id} className="edit-box">
           <Checkbox
             onChange={(event) =>
-              props.addEditedChecked(task.text, task._id, event.target.checked)
+              props.editTask(task._id, {checked: event.target.checked})
             }
             defaultChecked={task.checked}
           ></Checkbox>
           <TextField
             onChange={(event) =>
-              props.addEditedText(event.target.value, task._id, task.checked)
+              props.editTask(task._id, {text: event.target.value})
             }
             defaultValue={task.text}
           ></TextField>

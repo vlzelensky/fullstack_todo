@@ -7,107 +7,82 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Tasks from "./tasks.js";
 import EditTasks from "./editTasks";
 import "./index.css";
+import NavBar from "../NavBarComponent"
+import api from "../../services/api"
 
 class EditTodoPage extends React.Component {
   state = {
     list: {},
     tasks: {},
     tasksToSend: [],
-    editing: [],
+    isChangesExist: false,
     editingTitle: "",
+    newTaskText: "",
     isLoading: true,
     editMode: false,
   };
 
-  addEditedTitle = (title) => {
+  editing = {}
+
+  editTitle = (title) => {
     if (this.state.list.title === title) {
-      this.setState({ editingTitle: "" });
+      this.setState({ editingTitle: "", isChangesExist: this.checkIsChangesExist("") });
     } else {
-      this.setState({ editingTitle: title });
+      this.setState({ editingTitle: title, isChangesExist: this.checkIsChangesExist(title) });
     }
   };
 
-  addEditedChecked = (text, _id, checked) => {
-    this.setState(({ editing, tasks }) => {
-      const editingElement = editing.find((element) => element._id === _id);
-      if (editingElement === undefined) {
-        return {
-          editing: [
-            ...editing,
-            {
-              text,
-              checked,
-              _id,
-              list_id: this.props.match.params.id,
-            },
-          ],
-        };
-      } else {
-        const task = tasks.find((element) => element._id === _id);
-        if (task.text === text && task.checked === checked) {
-          return {
-            editing: editing.filter((element) => element._id !== _id),
-          };
-        } else {
-          return {
-            editing: editing.map((element) =>
-              element._id === _id ? { ...element, checked } : element
-            ),
-          };
-        }
+  checkIsChangesExist = (editingTitle) => {
+    return Object.values(this.editing).length > 0 || editingTitle !== ""
+  }
+
+  editTask = (_id, { text, checked }) => {
+    let task = this.editing[_id]
+    if (!task) {
+      task = this.editing[_id] = {
+        _id,
       }
-    });
+    }
+    const { tasks } = this.state
+    const originalTask = tasks.find((element) => element._id === _id);
+    if (text !== undefined) {
+      task.text = text
+    } else {
+      task.checked = checked
+    }
+    if (task.text === originalTask.text) {
+      delete task.text
+    }
+    if (task.checked === originalTask.checked) {
+      delete task.checked
+    }
+    if (task.text === undefined && task.checked === undefined) {
+      delete this.editing[_id]
+    }
+    this.setState({ isChangesExist: this.checkIsChangesExist(this.state.editingTitle) })
   };
 
-  addEditedText = (text, _id, checked) => {
-    this.setState(({ editing, tasks }) => {
-      const editingElement = editing.find((element) => element._id === _id);
-      if (editingElement === undefined) {
-        return {
-          editing: [
-            ...editing,
-            {
-              text,
-              checked,
-              _id,
-              list_id: this.props.match.params.id,
-            },
-          ],
-        };
-      } else {
-        const task = tasks.find((element) => element._id === _id);
-        if (task.text === text && task.checked === checked) {
-          return {
-            editing: editing.filter((element) => element._id !== _id),
-          };
-        } else {
-          return {
-            editing: editing.map((element) =>
-              element._id === _id ? { ...element, text } : element
-            ),
-          };
-        }
-      }
-    });
-  };
 
   componentDidMount = () => {
     this.getTodoList();
   };
 
   saveChanges = async () => {
-    const { editing, editingTitle } = this.state;
+    const { editingTitle } = this.state;
+    const editing = this.editing
     const listId = this.props.match.params.id;
+    const changes = {};
+    if (editingTitle !== "") {
+      changes.editingTitle = editingTitle
+    }
+    if (Object.values(editing).length > 0) {
+      changes.editing = editing
+    }
 
     try {
-      if (editingTitle !== "") {
-        const res = await axios.put("/api/editlist/" + listId, {
-          editing,
-          editingTitle,
-        });
-        if (res.status !== 201) {
-          throw new Error(res.status);
-        }
+      const res = await api().put("/api/editlist/" + listId, changes);
+      if (res.status !== 201) {
+        throw new Error(res.status);
       }
     } catch (e) {
       console.log(e);
@@ -120,34 +95,14 @@ class EditTodoPage extends React.Component {
     this.setState({ editMode: !this.state.editMode });
   };
 
-  changeTitle = (event) => {
-    this.setState((state) => ({
-      list: { title: event.target.value },
-    }));
-  };
-
   handleClose = () => {
     this.setState({ editMode: false });
-  };
-
-  changeTaskText = (text, i) => {
-    const { tasks } = this.state;
-    this.setState({
-      tasks: tasks.map((e, index) => (index === i ? { ...e, text } : e)),
-    });
-  };
-
-  changeTaskChecked = (checked, i) => {
-    const { tasks } = this.state;
-    this.setState({
-      tasks: tasks.map((e, index) => (index === i ? { ...e, checked } : e)),
-    });
   };
 
   getTodoList = async () => {
     try {
       const listId = this.props.match.params.id;
-      const res = await axios.get("/api/editlist/" + listId);
+      const res = await api().get("/api/editlist/" + listId);
       this.setState({ list: res.data.list, tasks: res.data.tasks });
     } catch (e) {
       console.error(e);
@@ -158,7 +113,7 @@ class EditTodoPage extends React.Component {
   deleteList = async () => {
     const listId = this.props.match.params.id;
     try {
-      await axios.delete("/api/editlist/" + listId);
+      await api().delete("/api/editlist/" + listId);
       this.props.history.push("/todo");
     } catch (e) {
       console.error(e);
@@ -167,31 +122,42 @@ class EditTodoPage extends React.Component {
 
   deleteTask = async (id) => {
     try {
-      await axios.delete("/api/deletetask/" + id);
+      await api().delete("/api/deletetask/" + id);
       this.getTodoList();
     } catch (e) {
       console.error(e);
     }
   };
 
-  addNewTaskOnEnter = async (event) => {
+  changeNewTaskText = (event) => {
+    this.setState({ newTaskText: event.target.value })
+  }
+
+  saveTask = async (text) => {
     const { id } = this.props.match.params;
+    try {
+      await api().post("/api/tasks", {
+        id_list: id,
+        text,
+        checked: false,
+      });
+      await this.getTodoList();
+      this.setState({ newTaskText: "" })
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  addNewTaskOnEnter = (event) => {
     if (event.key === "Enter") {
       const value = event.target.value.trim();
-      try {
-        await axios.post("/api/tasks", {
-          id_list: id,
-          text: value,
-          checked: false,
-        });
-        await this.getTodoList();
-        event.target.value = "";
-
-      } catch (e) {
-        console.log(e);
-      }
+      this.saveTask(value)
     }
   };
+
+  addNewTaskOnClick = () => {
+    this.saveTask(this.state.newTaskText.trim())
+  }
 
   render() {
     if (this.state.isLoading === true) {
@@ -200,24 +166,7 @@ class EditTodoPage extends React.Component {
           <div className="container">
             <div className="menu"></div>
             <div className="content">
-              <div className="top-bar">
-                <div className="logo">
-                  <Button
-                    onClick={this.changeTaskText}
-                    color="default"
-                    className="open-menu"
-                  >
-                    <MenuIcon />
-                  </Button>
-                  <h1>to-do list</h1>
-                </div>
-                <div className="user">
-                  <h className="user-name">User Name</h>
-                  <Button variant="contained" color="default" className="btn">
-                    Log Out
-                  </Button>
-                </div>
-              </div>
+              <NavBar />
               <div className="main-box">
                 <CircularProgress />
               </div>
@@ -225,97 +174,79 @@ class EditTodoPage extends React.Component {
           </div>
         </div>
       );
-    } else {
-      const {
-        editMode,
-        tasks,
-        list: { title },
-      } = this.state;
-      return (
-        <div className="main">
-          <div className="container">
-            <div className="menu"></div>
-            <div className="content">
-              <div className="top-bar">
-                <div className="logo">
-                  <Button color="default" className="open-menu">
-                    <MenuIcon />
-                  </Button>
-                  <h1>to-do list</h1>
-                </div>
-                <div className="user">
-                  <h className="user-name">User Name</h>
-                  <Button variant="contained" color="default" className="btn">
-                    Log Out
-                  </Button>
-                </div>
+    }
+    const {
+      editMode,
+      tasks,
+      list: { title },
+    } = this.state;
+    return (
+      <div className="main">
+        <div className="container">
+          <div className="content">
+            <div className="main-box">
+              <div className="input-title">
+                <TextField
+                  className="input-title-editlist"
+                  value={title}
+                  disabled
+                ></TextField>
               </div>
-              <div className="main-box">
-                <div className="input-title">
+
+              <div className="buttons">
+                <Button onClick={this.activateEditMode}>Edit</Button>
+                <Button onClick={this.deleteList}>Delete</Button>
+              </div>
+
+              <Tasks
+                deleteTask={this.deleteTask}
+                editMode={editMode}
+                changeTaskChecked={this.changeTaskChecked}
+                changeTaskText={this.changeTaskText}
+                tasks={tasks}
+              />
+              <div className="new-task">
+                <TextField onChange={this.changeNewTaskText} value={this.state.newTaskText} onKeyDown={this.addNewTaskOnEnter} />
+                <Button onClick={this.addNewTaskOnClick}>
+                  <AddBoxIcon />
+                </Button>
+              </div>
+              <Dialog
+                onClose={this.handleClose}
+                aria-labelledby="simple-dialog-title"
+                open={editMode}
+              >
+                <DialogTitle id="simple-dialog-title">
                   <TextField
-                    className="input-title-editlist"
-                    value={title}
-                    disabled
+                    onChange={(event) =>
+                      this.editTitle(event.target.value)
+                    }
+                    defaultValue={title}
                   ></TextField>
-                </div>
-
-                <div className="buttons">
-                  <Button onClick={this.activateEditMode}>Edit</Button>
-                  <Button onClick={this.deleteList}>Delete</Button>
-                </div>
-
-                <Tasks
-                  deleteTask={this.deleteTask}
+                </DialogTitle>
+                <EditTasks
+                  editTask={this.editTask}
                   editMode={editMode}
-                  changeTaskChecked={this.changeTaskChecked}
-                  changeTaskText={this.changeTaskText}
                   tasks={tasks}
                 />
-                <div className="new-task">
-                  <TextField onKeyDown={this.addNewTaskOnEnter} />
-                  <Button on Click={this.addnewTask}>
-                    <AddBoxIcon />
-                  </Button>
-                </div>
-                <Dialog
-                  onClose={this.handleClose}
-                  aria-labelledby="simple-dialog-title"
-                  open={editMode}
-                >
-                  <DialogTitle id="simple-dialog-title">
-                    <TextField
-                      onChange={(event) =>
-                        this.addEditedTitle(event.target.value)
-                      }
-                      defaultValue={title}
-                    ></TextField>
-                  </DialogTitle>
-                  <EditTasks
-                    addEditedChecked={this.addEditedChecked}
-                    addEditedText={this.addEditedText}
-                    changeTaskText={this.changeTaskText}
-                    changeTaskChecked={this.changeTaskChecked}
-                    editMode={editMode}
-                    tasks={tasks}
-                  />
-                  <Button onClick={this.activateEditMode}>Cancel</Button>
-                  <Button onClick={this.saveChanges}>Save</Button>
-                </Dialog>
+                <Button onClick={this.activateEditMode}>Cancel</Button>
+                <Button disabled={!this.state.isChangesExist} onClick={this.saveChanges}>Save</Button>
+              </Dialog>
 
-                <div className="save-btn-container">
-                  <Button
-                    className="btn"
-                    onClick={() => this.props.history.push("/todo")}
-                  >
-                    Back
+              <div className="save-btn-container">
+                <Button
+                  className="btn"
+                  onClick={() => this.props.history.push("/todo")}
+                >
+                  Back
                   </Button>
-                </div>
               </div>
             </div>
           </div>
         </div>
-      );
-    }
+      </div>
+    );
+
   }
 }
 

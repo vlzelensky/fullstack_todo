@@ -1,9 +1,9 @@
 import React from "react";
 import { withRouter } from 'react-router';
 import axios from "axios";
-import { 
-  Button, 
-  TextField 
+import {
+  Button,
+  TextField
 } from "@material-ui/core";
 import RegisterComponent from "../RegisterComponent";
 import "./login.css";
@@ -29,18 +29,16 @@ class LoginComponent extends React.Component {
       return;
     }
     try {
-      await axios
+      const res = await axios
         .post("api/login", {
           email: email,
           password: password
         })
-        .then((res) => {
-          if (res.status !== 200 && res.status !== 201) {
-            throw new Error(res.status);
-          }
-          this.props.saveUserName(res.data.firstName, res.data.lastName);
-          this.props.history.push('/todo');
-        });
+      if (res.status !== 200 && res.status !== 201) {
+        throw new Error(res.status);
+      }
+      this.props.onLogin(res.data);
+      this.props.history.push('/todo');
     } catch (e) {
       console.warn(e);
     }
@@ -104,11 +102,11 @@ class LoginComponent extends React.Component {
         {status ? (
           this.renderLogin()
         ) : (
-          <RegisterComponent changeStatus={this.changeStatus} />
-        )}
+            <RegisterComponent changeStatus={this.changeStatus} />
+          )}
       </>
     );
   }
 }
 
-export default withRouter(LoginComponent);
+export default LoginComponent;

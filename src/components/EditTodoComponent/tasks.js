@@ -5,7 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 export default function Tasks(props) {
     return props.tasks.map((task, i) => {
       return (
-        <div className="tasks">
+        <div key={task._id} className="tasks">
           <Checkbox
             checked={task.checked}
             onChange={() => props.changeTaskChecked(!task.checked, i)}

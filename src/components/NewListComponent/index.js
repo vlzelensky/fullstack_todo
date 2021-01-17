@@ -6,6 +6,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import "./index.css";
 import NewTask from "./newtask.js";
 import ChooseTitle from "./chooser";
+import NavBar from "../NavBarComponent"
+import api from "../../services/api"
 
 class NewListComponent extends React.Component {
   state = {
@@ -24,7 +26,7 @@ class NewListComponent extends React.Component {
       return;
     }
     try {
-      await axios.post("/api/todolist", {
+      await api().post("/api/todolist", {
         title,
         tasks,
       });
@@ -66,22 +68,7 @@ class NewListComponent extends React.Component {
     return (
       <div onKeyDown={this.saveNewTask}>
         <div className="container">
-          <div className="menu"></div>
           <div className="content">
-            <div className="top-bar">
-              <div className="logo">
-                <Button color="default" className="open-menu">
-                  <MenuIcon />
-                </Button>
-                <h1>new to-do list</h1>
-              </div>
-              <div className="user">
-                <span className="user-name">User Name</span>
-                <Button variant="contained" color="default" className="btn">
-                  Log Out
-                </Button>
-              </div>
-            </div>
             <div className="main-box new-list-box">
               <div className="title-container">
                 <ChooseTitle
