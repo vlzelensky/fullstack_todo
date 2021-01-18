@@ -7,58 +7,78 @@ import LoginComponent from "./components/LoginComponent";
 import TodoComponent from "./components/TodoComponent";
 import CheckEmailComponent from "./components/UpdatePasswordComponent/checkemail";
 import NewListComponent from "./components/NewListComponent/index";
-import NavBar from "./components/NavBarComponent"
-import { initApi } from "./services/api"
+import NavBar from "./components/NavBarComponent";
+import { initApi } from "./services/api";
 import axios from "axios";
+import api from "./services/api";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+  const [titles, setTitles] = useState(null);
   function saveUser(user) {
-    setUser(user)
-    localStorage.setItem("jwtToken", user.token)
-    initApi(user.token)
+    setUser(user);
+    localStorage.setItem("jwtToken", user.token);
+    console.log(user.userId);
+    initApi(user.token);
+  }
+
+  function logOut() {
+    setUser(null);
+    localStorage.removeItem("jwtToken");
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken")
+    const token = localStorage.getItem("jwtToken");
     if (token) {
-      axios.get("/api/user", {
-        headers: {
-          "x-token": token
-        }
-      })
+      axios
+        .get("/api/user", {
+          headers: {
+            "x-token": token,
+          },
+        })
         .then((res) => {
-          setUser(res.data)
-          initApi(token)
-          setLoading(false)
+          setUser(res.data);
+          initApi(token);
+          setLoading(false);
         })
-        .catch(e => {
-          alert(e)
-        })
+        .catch((e) => {
+          alert(e);
+        });
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [])
+  }, []);
+  
+  async function getTodoTitles() {
+    const token = localStorage.getItem("jwtToken");
+    try {
+      const res = await api().get("/api/todolist", {
+        headers: { 
+          "x-token": token,
+        }
+      });
+      setTitles(res.data);
+    } catch (e) {
+      console.warn(e.status);
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getTodoTitles();
+  }, []);
 
   if (loading) {
-    return (
-      <CircularProgress />
-    )
+    return <CircularProgress />;
   } else {
-
     return (
       <BrowserRouter>
-        <NavBar user={user} />
+        <NavBar user={user} titles={titles} logOut={logOut} />
         <Switch>
           <Route
             path="/login"
-            render={(props) => (
-              <LoginComponent
-                onLogin={saveUser}
-                {...props}
-              />
-            )}
+            render={(props) => <LoginComponent onLogin={saveUser} {...props} />}
           />
           {!user && <Redirect to="/login" />}
 
@@ -66,13 +86,15 @@ function App() {
           <Route
             path="/todo"
             render={(props) => (
-              <TodoComponent
-                user={user}
-                {...props}
-              />
+              <TodoComponent getTodoTitles={getTodoTitles} {...props} />
             )}
           />
-          <Route path="/new_list" component={NewListComponent} />
+          <Route
+            path="/new_list"
+            render={(props) => (
+              <NewListComponent {...props} getTodoTitles={getTodoTitles} />
+            )}
+          />
           <Redirect exact from="/" to="/todo" />
         </Switch>
       </BrowserRouter>

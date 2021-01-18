@@ -1,13 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router";
-import axios from "axios";
-import { Button } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+import { Button, Link } from "@material-ui/core";
 import "./index.css";
 import NewTask from "./newtask.js";
 import ChooseTitle from "./chooser";
-import NavBar from "../NavBarComponent"
-import api from "../../services/api"
+import api from "../../services/api";
 
 class NewListComponent extends React.Component {
   state = {
@@ -37,6 +34,7 @@ class NewListComponent extends React.Component {
       console.warn(e);
     }
     this.props.history.push("/todo");
+    this.props.getTodoTitles();
   };
 
   saveTaskValue = (todoItem, i) => {
@@ -49,7 +47,7 @@ class NewListComponent extends React.Component {
   };
 
   changeTitle = (event) => {
-    this.setState({ title: event.target.value.trim() });
+    this.setState({ title: event.target.value });
   };
 
   saveNewTask = (event) => {
@@ -81,6 +79,10 @@ class NewListComponent extends React.Component {
                 saveTaskValue={this.saveTaskValue}
               />
               <div className="save-btn-container">
+                <Link href="/todo">
+                  <Button onClick={this.saveTodoList}>Cancel</Button>
+                </Link>
+
                 <Button onClick={this.saveTodoList}>Save</Button>
               </div>
             </div>

@@ -1,13 +1,10 @@
 import React from "react";
-import axios from "axios";
 import { Button, TextField, DialogTitle, Dialog } from "@material-ui/core";
 import AddBoxIcon from "@material-ui/icons/AddBox";
-import MenuIcon from "@material-ui/icons/Menu";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Tasks from "./tasks.js";
 import EditTasks from "./editTasks";
 import "./index.css";
-import NavBar from "../NavBarComponent"
 import api from "../../services/api"
 
 class EditTodoPage extends React.Component {
@@ -114,6 +111,7 @@ class EditTodoPage extends React.Component {
     const listId = this.props.match.params.id;
     try {
       await api().delete("/api/editlist/" + listId);
+      this.props.getTodoTitles()
       this.props.history.push("/todo");
     } catch (e) {
       console.error(e);
@@ -166,7 +164,6 @@ class EditTodoPage extends React.Component {
           <div className="container">
             <div className="menu"></div>
             <div className="content">
-              <NavBar />
               <div className="main-box">
                 <CircularProgress />
               </div>

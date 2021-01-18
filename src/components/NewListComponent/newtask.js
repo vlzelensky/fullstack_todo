@@ -3,8 +3,8 @@ import { Checkbox, TextField } from "@material-ui/core";
 
 export default function NewTask(props) {
   return props.tasks.map((todoItem, index) => {
-     return (
-      <div>
+    return (
+      <div key={index}>
         <Checkbox
           onClick={() => {
             todoItem.checked = !todoItem.checked;

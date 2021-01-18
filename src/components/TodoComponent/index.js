@@ -10,15 +10,23 @@ class TodoComponent extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/todo/:id" component={EditTodoPage} />
-          <Route path="/todo" render={(props) => (
-            <MainComponent
-              userName={this.props.userName}
-              location={props.location}
-              match={props.match}
-              history={props.history}
-            />
-          )} />
+          <Route path="/todo/:id" render={(props) => (
+              <EditTodoPage
+                getTodoTitles={this.props.getTodoTitles}
+                {...props}
+              />
+            )} />
+          <Route
+            path="/todo"
+            render={(props) => (
+              <MainComponent
+                user={this.props.user}
+                location={props.location}
+                match={props.match}
+                history={props.history}
+              />
+            )}
+          />
         </Switch>
       </BrowserRouter>
     );

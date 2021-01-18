@@ -68,3 +68,7 @@ h1 {
 .MuiPaper-root {
   width: 250px
 }
+
+.MuiLink-root.MuiLink-underlineHover:hover {
+  text-decoration: none;
+}

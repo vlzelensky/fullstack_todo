@@ -1,24 +1,21 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Button, Link } from "@material-ui/core";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Lists from "./lists.js";
-import NavBar from "../NavBarComponent"
-import api from "../../services/api"
+import api from "../../services/api";
 
 class MainComponent extends React.Component {
   state = {
     lists: [],
     open: false,
+    loading: true,
   };
 
   editList = (id) => {
     this.props.history.push("/todo/" + id);
   };
 
-  createNewList = () => {
-    this.props.history.push("/new_list");
-  };
 
   componentDidMount = () => {
     this.getTodoList();
@@ -28,29 +25,33 @@ class MainComponent extends React.Component {
     try {
       const res = await api().get("/api/todolist");
       this.setState({ lists: res.data });
+      this.setState({loading: false})
     } catch (e) {
       console.warn(e.status);
     }
   };
 
   render() {
-    const { lists, open } = this.state;
+    const { lists } = this.state;
 
+    if (this.state.loading) {
+      return (
+        <CircularProgress/>
+      )
+    }
     return (
       <div className="main">
         <div className="container">
-          
           <div className="content">
             <div className="lists-container">
               <Lists editList={this.editList} lists={lists} />
-              <Button
+              <Link href="/new_list"><Button
                 className="addTodo"
                 variant="contained"
                 color="default"
-                onClick={this.createNewList}
               >
                 <AddCircleOutlineOutlinedIcon />
-              </Button>
+              </Button></Link>
             </div>
           </div>
         </div>
