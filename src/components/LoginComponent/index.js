@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Link } from "@material-ui/core";
 import RegisterComponent from "../RegisterComponent";
 import "./login.css";
 
@@ -60,10 +60,6 @@ class LoginComponent extends React.Component {
     }
   };
 
-  renderChangePassword = () => {
-    this.props.history.push("/change_password");
-  };
-
   renderLogin = () => {
     return (
       <div className="main-box">
@@ -71,8 +67,6 @@ class LoginComponent extends React.Component {
         <div className="field">
           <TextField
             autoComplete="off"
-            id="standard-basic"
-            variant="filled"
             label="Email"
             className="form"
             onChange={(event) =>
@@ -83,9 +77,7 @@ class LoginComponent extends React.Component {
         </div>
         <div className="field">
           <TextField
-            id="standard-basic"
             type="password"
-            variant="filled"
             label="Password"
             className="form"
             onChange={(event) =>
@@ -108,9 +100,11 @@ class LoginComponent extends React.Component {
             create an account
           </span>
         </div>
-        <span className="a2" onClick={this.renderChangePassword}>
-          forgot your password?
-        </span>
+        <div>
+          <Link href={"/change_password"} className="a2">
+            forgot your password?
+          </Link>
+        </div>
       </div>
     );
   };

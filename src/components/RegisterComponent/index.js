@@ -60,7 +60,6 @@ class RegisterComponent extends React.Component {
         <div className="field">
           <TextField
             autoComplete="off"
-            variant="filled"
             label="First name"
             className="form"
             onChange={(event) =>
@@ -72,7 +71,6 @@ class RegisterComponent extends React.Component {
         <div className="field">
           <TextField
             autoComplete="none"
-            variant="filled"
             label="Last name"
             className="form"
             onChange={(event) =>
@@ -84,7 +82,6 @@ class RegisterComponent extends React.Component {
         <div className="field">
           <TextField
             autoComplete="none"
-            variant="filled"
             label="Email"
             className="form"
             onChange={(event) =>
@@ -96,7 +93,6 @@ class RegisterComponent extends React.Component {
         <div className="field">
           <TextField
             autoComplete="none"
-            variant="filled"
             label="Password"
             type="password"
             className="form"
@@ -109,7 +105,6 @@ class RegisterComponent extends React.Component {
         <div className="field">
           <TextField
             autoComplete="none"
-            variant="filled"
             label="Repeat password"
             type="password"
             className="form"

@@ -32,7 +32,7 @@ h1 {
   background-color: #d5d5d5;
   width: 300px;
   margin: 30px auto;
-  border-radius: 10px;
+  border-radius: 5px;
   border: none;
   padding: 10px;
   user-select: none;
@@ -41,17 +41,7 @@ h1 {
 
 }
 
-.input {
-  width: 200px;
-  margin: 0 auto;
-  display: block;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border-color: rgb(140, 122, 241);
-  margin-top: 10px;
-  height:20px;
-  padding: 0 5px;
-}
+
 
 .btn1 {
   font-family: 'Sans-Serif';
@@ -66,7 +56,12 @@ h1 {
 }
 
 .MuiPaper-root {
-  width: 250px
+  width: 250px;
+  background-color: #d5d5d5;
+  padding: 30px 30px;
+  padding-bottom: 30px;
+  display: flex;
+  
 }
 
 .MuiLink-root.MuiLink-underlineHover:hover {

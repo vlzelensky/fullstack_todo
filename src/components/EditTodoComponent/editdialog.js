@@ -1,23 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, TextField, DialogTitle, Dialog } from "@material-ui/core";
 import EditTasks from "./editTasks";
 
 export default function EditDialog(props) {
-  const [editMode, setEditMode] = useState(false);
-
-  function handleClose() {
-    setEditMode(false);
-  }
-
-  function activateEditMode() {
-    setEditMode(true);
-  }
 
   return (
     <Dialog
-      onClose={() => handleClose()}
       aria-labelledby="simple-dialog-title"
-      open={editMode}
+      open={props.open}
+      onClose={props.activateEditMode}
     >
       <DialogTitle id="simple-dialog-title">
         <TextField
@@ -27,10 +18,10 @@ export default function EditDialog(props) {
       </DialogTitle>
       <EditTasks
         editTask={props.editTask}
-        editMode={editMode}
+        editMode={props.open}
         tasks={props.tasks}
       />
-      <Button onClick={activateEditMode}>Cancel</Button>
+      <Button onClick={props.activateEditMode}>Cancel</Button>
       <Button disabled={!props.isChangesExist} onClick={props.saveChanges}>
         Save
       </Button>
