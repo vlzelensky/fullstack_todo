@@ -19,7 +19,6 @@ function App() {
   function saveUser(user) {
     setUser(user);
     localStorage.setItem("jwtToken", user.token);
-    console.log(user.userId);
     initApi(user.token);
   }
 
@@ -49,19 +48,21 @@ function App() {
       setLoading(false);
     }
   }, []);
-  
+
   async function getTodoTitles() {
     const token = localStorage.getItem("jwtToken");
-    try {
-      const res = await api().get("/api/todolist", {
-        headers: { 
-          "x-token": token,
-        }
-      });
-      setTitles(res.data);
-    } catch (e) {
-      console.warn(e.status);
-      console.log(e);
+    if (token) {
+      try {
+        const res = await api().get("/api/todolist", {
+          headers: {
+            "x-token": token,
+          },
+        });
+        setTitles(res.data);
+      } catch (e) {
+        console.warn(e.status);
+        console.log(e);
+      }
     }
   }
 

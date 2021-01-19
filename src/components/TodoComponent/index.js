@@ -6,8 +6,9 @@ import EditTodoPage from "../EditTodoComponent/edittodo";
 import MainComponent from "./main.js";
 
 class TodoComponent extends React.Component {
+  
   render() {
-    return (
+    return ( 
       <BrowserRouter>
         <Switch>
           <Route path="/todo/:id" render={(props) => (
@@ -20,6 +21,7 @@ class TodoComponent extends React.Component {
             path="/todo"
             render={(props) => (
               <MainComponent
+                getTodoTitles={this.props.getTodoTitles}
                 user={this.props.user}
                 location={props.location}
                 match={props.match}

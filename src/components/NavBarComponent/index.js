@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Link } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
+import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import MenuIcon from "@material-ui/icons/Menu";
 import Titles from "../TodoComponent/titles";
 import "./index.css";
@@ -10,7 +11,7 @@ export default function NavBar(props) {
 
   const [open, setOpen] = useState(false);
 
-  function toggleDrawer() {
+  const toggleDrawer = () => {
     setOpen(!open);
   }
 
@@ -20,6 +21,13 @@ export default function NavBar(props) {
         <div>IMAGE</div>
         <div className="titles">
           <Titles titles={props.titles} />
+        </div>
+        <div>
+          <Link href="/new_list">
+            <Button>
+              <AddCircleOutlineOutlinedIcon />
+            </Button>
+          </Link>
         </div>
       </Drawer>
       <div className="top-bar">

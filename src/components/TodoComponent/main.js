@@ -19,6 +19,7 @@ class MainComponent extends React.Component {
 
   componentDidMount = () => {
     this.getTodoList();
+    this.props.getTodoTitles();
   };
 
   getTodoList = async (res) => {
