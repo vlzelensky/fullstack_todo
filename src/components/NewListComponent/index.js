@@ -1,11 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router";
-import axios from "axios";
-import { Button } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+import { Button, Link } from "@material-ui/core";
 import "./index.css";
 import NewTask from "./newtask.js";
 import ChooseTitle from "./chooser";
+import api from "../../services/api";
 
 class NewListComponent extends React.Component {
   state = {
@@ -24,7 +23,7 @@ class NewListComponent extends React.Component {
       return;
     }
     try {
-      await axios.post("/api/todolist", {
+      await api().post("/api/todolist", {
         title,
         tasks,
       });
@@ -35,6 +34,7 @@ class NewListComponent extends React.Component {
       console.warn(e);
     }
     this.props.history.push("/todo");
+    this.props.getTodoTitles();
   };
 
   saveTaskValue = (todoItem, i) => {
@@ -47,7 +47,7 @@ class NewListComponent extends React.Component {
   };
 
   changeTitle = (event) => {
-    this.setState({ title: event.target.value.trim() });
+    this.setState({ title: event.target.value });
   };
 
   saveNewTask = (event) => {
@@ -66,22 +66,7 @@ class NewListComponent extends React.Component {
     return (
       <div onKeyDown={this.saveNewTask}>
         <div className="container">
-          <div className="menu"></div>
           <div className="content">
-            <div className="top-bar">
-              <div className="logo">
-                <Button color="default" className="open-menu">
-                  <MenuIcon />
-                </Button>
-                <h1>new to-do list</h1>
-              </div>
-              <div className="user">
-                <span className="user-name">User Name</span>
-                <Button variant="contained" color="default" className="btn">
-                  Log Out
-                </Button>
-              </div>
-            </div>
             <div className="main-box new-list-box">
               <div className="title-container">
                 <ChooseTitle
@@ -94,6 +79,10 @@ class NewListComponent extends React.Component {
                 saveTaskValue={this.saveTaskValue}
               />
               <div className="save-btn-container">
+                <Link href="/todo">
+                  <Button onClick={this.saveTodoList}>Cancel</Button>
+                </Link>
+
                 <Button onClick={this.saveTodoList}>Save</Button>
               </div>
             </div>

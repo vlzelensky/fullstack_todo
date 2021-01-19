@@ -1,13 +1,8 @@
 import React from "react";
-import { withRouter } from 'react-router';
 import axios from "axios";
-import { 
-  Button, 
-  TextField 
-} from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import RegisterComponent from "../RegisterComponent";
 import "./login.css";
-
 
 class LoginComponent extends React.Component {
   constructor(props) {
@@ -15,12 +10,34 @@ class LoginComponent extends React.Component {
     this.state = {
       status: true,
       email: "",
-      password: ""
+      password: "",
     };
   }
 
   changeStatus = () => {
     this.setState((state) => ({ status: !state.status }));
+  };
+
+  signInOnEnter = async (event) => {
+    if (event.key === "Enter") {
+      const { email, password } = this.state;
+      if (Object.values(this.state).some((value) => !value)) {
+        return;
+      }
+      try {
+        const res = await axios.post("api/login", {
+          email: email,
+          password: password,
+        });
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error(res.status);
+        }
+        this.props.onLogin(res.data);
+        this.props.history.push("/todo");
+      } catch (e) {
+        console.warn(e);
+      }
+    }
   };
 
   signIn = async () => {
@@ -29,26 +46,23 @@ class LoginComponent extends React.Component {
       return;
     }
     try {
-      await axios
-        .post("api/login", {
-          email: email,
-          password: password
-        })
-        .then((res) => {
-          if (res.status !== 200 && res.status !== 201) {
-            throw new Error(res.status);
-          }
-          this.props.saveUserName(res.data.firstName, res.data.lastName);
-          this.props.history.push('/todo');
-        });
+      const res = await axios.post("api/login", {
+        email: email,
+        password: password,
+      });
+      if (res.status !== 200 && res.status !== 201) {
+        throw new Error(res.status);
+      }
+      this.props.onLogin(res.data);
+      this.props.history.push("/todo");
     } catch (e) {
       console.warn(e);
     }
   };
 
   renderChangePassword = () => {
-    this.props.history.push('/change_password');
-  }
+    this.props.history.push("/change_password");
+  };
 
   renderLogin = () => {
     return (
@@ -64,6 +78,7 @@ class LoginComponent extends React.Component {
             onChange={(event) =>
               this.setState({ email: event.target.value.trim() })
             }
+            onKeyDown={(event) => this.signInOnEnter(event)}
           />
         </div>
         <div className="field">
@@ -76,6 +91,7 @@ class LoginComponent extends React.Component {
             onChange={(event) =>
               this.setState({ password: event.target.value.trim() })
             }
+            onKeyDown={(event) => this.signInOnEnter(event)}
           />
         </div>
         <div className="btns">
@@ -92,7 +108,9 @@ class LoginComponent extends React.Component {
             create an account
           </span>
         </div>
-        <span className="a2" onClick={this.renderChangePassword}>forgot your password?</span>
+        <span className="a2" onClick={this.renderChangePassword}>
+          forgot your password?
+        </span>
       </div>
     );
   };
@@ -111,4 +129,4 @@ class LoginComponent extends React.Component {
   }
 }
 
-export default withRouter(LoginComponent);
+export default LoginComponent;

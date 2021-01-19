@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from "@material-ui/core"
 
 
 export default function Titles(props) {
-    return props.lists.map((list) => {
-        return <div>{list.title}</div>
+    return props.titles.map((title) => {
+        return <div key={title._id} className="drawerTitles">
+            <Link href={"/todo/" + title._id}>{title.title}</Link>
+        </div>
     })
 }

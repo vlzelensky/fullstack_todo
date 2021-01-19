@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom"
 import axios from "axios";
 import { Button, TextField } from "@material-ui/core";
 
@@ -20,8 +21,8 @@ class RegisterComponent extends React.Component {
     if (!passwordSample.test(this.state.password)) {
       alert(
         "Password must contain only latin letters, at least 1 uppercase letter, 1 lowercase letter, 1 numeral"
-        );
-        return;
+      );
+      return;
     }
     if (Object.values(this.state).some((value) => value === "")) {
       return;
@@ -32,23 +33,18 @@ class RegisterComponent extends React.Component {
     }
     if (this.state.password === this.state.repeatPassword) {
       try {
-        await axios
+        const res = await axios
           .post("/api/register", {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
             password: this.state.password,
           })
-          .then((res) => {
-            if (res.status !== 200 && res.status !== 201) {
-              throw new Error(res.status);
-            } else {
-              this.props.history.push("/todo");
-            }
-          })
-          .catch((e) => {
-            alert(e + ", try again later");
-          });
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error(res.status);
+        } else {
+          this.props.changeStatus();
+        }
       } catch (e) {
         console.warn(e);
       }
@@ -135,9 +131,9 @@ class RegisterComponent extends React.Component {
           <Button
             variant="contained"
             color="default"
-            className="btn reg_btn" 
+            className="btn reg_btn"
             onClick={this.saveUserData}
-            >
+          >
             Create account
           </Button>
         </div>
@@ -146,4 +142,4 @@ class RegisterComponent extends React.Component {
   }
 }
 
-export default RegisterComponent;
+export default withRouter(RegisterComponent);

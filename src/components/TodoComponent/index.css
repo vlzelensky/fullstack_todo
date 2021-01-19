@@ -119,3 +119,10 @@
 .todo-tasks {
     height: 130px;
 }
+
+.drawer-titles {
+    display: flex;
+    margin-top: 15px;
+
+    
+}
