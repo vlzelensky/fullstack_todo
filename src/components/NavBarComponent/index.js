@@ -15,13 +15,14 @@ export default function NavBar(props) {
     setOpen(!open);
   };
 
-  const image = require("../../static/img/navbar.jpg");
+  const image = require("../../static/img/background.jpg");
   return (
     <div className="nav-bar">
       <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
-        <div className="img-box">
-          <img alt="" src={image}></img>
+        <div className="img-container">
+          <div className="img-box"></div>
         </div>
+
         <div className="titles">
           <Titles titles={props.titles} />
         </div>

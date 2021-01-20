@@ -190,6 +190,7 @@ class EditTodoPage extends React.Component {
       );
     }
     const {
+      deleteWarn,
       editMode,
       tasks,
       list: { title },
@@ -241,7 +242,7 @@ class EditTodoPage extends React.Component {
               />
               <DeleteListDialog
                 closeDeleteWarn={this.closeDeleteWarn}
-                deleteWarn={this.state.deleteWarn}
+                deleteWarn={deleteWarn}
                 title={title}
                 deleteList={this.deleteList}
               />

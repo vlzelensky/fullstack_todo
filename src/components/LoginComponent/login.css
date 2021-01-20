@@ -30,7 +30,7 @@
   .a1 {
     font-family: 'Sans-serif';
     font-size: 15px;
-    color: rgb(229, 255, 0);
+    color: rgb(67, 42, 177);
     margin-top: 1px;
     margin-left: 5px;
     cursor: pointer;
@@ -56,9 +56,9 @@
     }
 
   .MuiButton-root.btn  {
-    color: rgba(0, 0, 0, 0.87);
+    background-color: #d5d5d5;
     line-height: 1.50;
-    margin-right: 10px;
+    margin-right: 7px;
   }
 
   .MuiFormControl-root.form {
@@ -69,21 +69,12 @@
   .MuiFilledInput-input {
     padding: 12px, 12px, 10px;
   }
-  
 
-  MuiTextField-root form.space {
-    color:rgb(229, 255, 0);
+  .span-container {
+    display: flex;
   }
 
-  MuiFilledInput-root.form {
-    display: block;
-
-  }
-
-  .MuiFilledInput-underline:before {
-    display: none;
-  }
-
-  .MuiFilledInput-underline:after {
-    display: none;
+  .link-container{
+    display: flex;
+    justify-content: center;
   }

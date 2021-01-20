@@ -1,24 +1,37 @@
 .nav-bar {
-      margin: 0 200px;
+  margin: 0 200px;
 }
 
 .img-box {
-      height: 50px;
-      width: 100px;
+  background: url(../../static/img/background.jpg);
+  height: 5vh;
+  width: 15vh;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .titles {
-      max-width: 500px;
-      display: flex;
-      justify-content: center;
+  height: 70vh;
+  padding: 5vh 0;
 }
 
 .user-container {
-      display: flex;
-      justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .addTodo-navbar {
-      display: flex;
-      justify-content: center;
+  display: flex;
+  justify-content: center;
 }
+
+.img-container {
+  display: flex;
+  justify-content: center;
+}
+
+.drawer-titles {
+  display: flex;
+  height: fit-content;
+}
+

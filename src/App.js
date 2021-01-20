@@ -39,7 +39,6 @@ function App() {
         })
         .then((res) => {
           setUser(res.data);
-          console.log(res.data)
           initApi(token);
           setLoading(false);
         })
