@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Link, Avatar } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
@@ -6,21 +6,36 @@ import MenuIcon from "@material-ui/icons/Menu";
 import EditIcon from "@material-ui/icons/Edit";
 import Titles from "../TodoComponent/titles";
 import "./index.css";
+import MD5 from "crypto-js/md5";
+import navbarimage from "../../static/img/navbar.jpg";
 
 export default function NavBar(props) {
   const user = props.user;
   const [open, setOpen] = useState(false);
+  const [hashed, setHashed] = useState(null);
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const image = require("../../static/img/background.jpg");
+  useEffect(() => {
+    if (user) {
+      setHashed(MD5(user.email).toString());
+    }
+  }, [user]);
+
   return (
     <div className="nav-bar">
-      <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
+      <Drawer
+        className="drawer"
+        anchor="left"
+        open={open}
+        onClose={() => setOpen(false)}
+      >
         <div className="img-container">
-          <div className="img-box"></div>
+          <div className="img-box">
+            <img alt="" src={navbarimage}></img>
+          </div>
         </div>
 
         <div className="titles">
@@ -36,7 +51,9 @@ export default function NavBar(props) {
         {user && (
           <div className="user-container">
             <div className="avatar">
-              <Avatar></Avatar>
+              <Avatar
+                src={"https://www.gravatar.com/avatar/" + hashed}
+              ></Avatar>
             </div>
             <div className="user">
               <span>

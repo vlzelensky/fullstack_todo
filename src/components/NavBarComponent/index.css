@@ -3,7 +3,6 @@
 }
 
 .img-box {
-  background: url(../../static/img/background.jpg);
   height: 5vh;
   width: 15vh;
   border-radius: 5px;
@@ -35,3 +34,9 @@
   height: fit-content;
 }
 
+.userdata-container {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}

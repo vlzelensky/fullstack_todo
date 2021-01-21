@@ -55,15 +55,21 @@ h1 {
   width: 300px;
 }
 
-.MuiPaper-root {
-  width: 250px;
+/* .MuiPaper-root {
+  width: 10vw;
   background-color: #d5d5d5;
   padding: 30px 30px;
   padding-bottom: 30px;
   display: flex;
   
-}
+} */
 
 .MuiLink-root.MuiLink-underlineHover:hover {
   text-decoration: none;
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vh;
 }
