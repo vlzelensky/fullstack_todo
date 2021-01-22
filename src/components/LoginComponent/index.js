@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Link } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 import RegisterComponent from "../RegisterComponent";
 import "./login.css";
 
@@ -11,6 +13,10 @@ class LoginComponent extends React.Component {
       status: true,
       email: "",
       password: "",
+      warning: false,
+      warningMessage: "",
+      vertical: "top",
+      horizontal: "center",
     };
   }
 
@@ -21,7 +27,7 @@ class LoginComponent extends React.Component {
   signInOnEnter = async (event) => {
     if (event.key === "Enter") {
       const { email, password } = this.state;
-      if (Object.values(this.state).some((value) => !value)) {
+      if (!email || !password) {
         return;
       }
       try {
@@ -29,12 +35,16 @@ class LoginComponent extends React.Component {
           email: email,
           password: password,
         });
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error(res.status);
-        }
         this.props.onLogin(res.data);
         this.props.history.push("/todo");
       } catch (e) {
+        console.warn(e);
+        if (e.response.status === 400) {
+          this.setState({
+            warningMessage: e.response.data.message,
+            warning: true,
+          });
+        }
         console.warn(e);
       }
     }
@@ -42,7 +52,7 @@ class LoginComponent extends React.Component {
 
   signIn = async () => {
     const { email, password } = this.state;
-    if (Object.values(this.state).some((value) => !value)) {
+    if (!email || !password) {
       return;
     }
     try {
@@ -50,29 +60,37 @@ class LoginComponent extends React.Component {
         email: email,
         password: password,
       });
-      if (res.status !== 200 && res.status !== 201) {
-        throw new Error(res.status);
-      }
       this.props.onLogin(res.data);
       this.props.history.push("/todo");
     } catch (e) {
       console.warn(e);
+      if (e.response.status === 400) {
+        this.setState({
+          warningMessage: e.response.data.message,
+          warning: true,
+        });
+      }
     }
   };
 
-  renderChangePassword = () => {
-    this.props.history.push("/change_password");
+  handleClose = () => {
+    this.setState({ warning: false });
   };
 
   renderLogin = () => {
+    const { warning, warningMessage, vertical, horizontal } = this.state;
     return (
       <div className="main-box">
+        <Snackbar anchorOrigin={{ vertical, horizontal }} open={warning}>
+          <Alert onClose={this.handleClose} severity="error">
+            {warningMessage}
+          </Alert>
+        </Snackbar>
+
         <h1>login</h1>
         <div className="field">
           <TextField
             autoComplete="off"
-            id="standard-basic"
-            variant="filled"
             label="Email"
             className="form"
             onChange={(event) =>
@@ -83,9 +101,7 @@ class LoginComponent extends React.Component {
         </div>
         <div className="field">
           <TextField
-            id="standard-basic"
             type="password"
-            variant="filled"
             label="Password"
             className="form"
             onChange={(event) =>
@@ -103,14 +119,18 @@ class LoginComponent extends React.Component {
           >
             Sign In
           </Button>
-          <span>or</span>
-          <span className="a1" onClick={this.changeStatus}>
-            create an account
-          </span>
+          <div className="span-container">
+            <span>or</span>
+            <span className="a1" onClick={this.changeStatus}>
+              create an account
+            </span>
+          </div>
         </div>
-        <span className="a2" onClick={this.renderChangePassword}>
-          forgot your password?
-        </span>
+        <div className="link-container">
+          <Link href={"/change_password"} className="a2">
+            forgot your password?
+          </Link>
+        </div>
       </div>
     );
   };

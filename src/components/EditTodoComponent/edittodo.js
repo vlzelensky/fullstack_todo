@@ -1,11 +1,10 @@
 import React from "react";
-import { Button, TextField, DialogTitle, Dialog } from "@material-ui/core";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
+import { Button, TextField } from "@material-ui/core";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Tasks from "./tasks.js";
 import EditDialog from "./editdialog";
+import DeleteListDialog from "./deletelistdialog";
 import "./index.css";
 import api from "../../services/api";
 
@@ -141,8 +140,12 @@ class EditTodoPage extends React.Component {
     this.setState({ newTaskText: event.target.value });
   };
 
-  activateEditMode = (hook) => {
-    hook(true)
+  activateEditMode = () => {
+    this.setState({ editMode: !this.state.editMode });
+  };
+
+  closeEditMode = () => {
+    this.setState({ editMode: false });
   };
 
   saveTask = async (text) => {
@@ -187,6 +190,7 @@ class EditTodoPage extends React.Component {
       );
     }
     const {
+      deleteWarn,
       editMode,
       tasks,
       list: { title },
@@ -227,7 +231,7 @@ class EditTodoPage extends React.Component {
                 </Button>
               </div>
               <EditDialog
-                editMode={this.state.editMode}
+                activateEditMode={this.activateEditMode}
                 open={this.state.editMode}
                 editTask={this.editTask}
                 editTitle={this.editTitle}
@@ -236,33 +240,12 @@ class EditTodoPage extends React.Component {
                 title={title}
                 tasks={tasks}
               />
-              <Dialog
-                onClose={() => this.closeDeleteWarn()}
-                open={this.state.deleteWarn}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  Are you sure you want to delete "{this.state.list.title}"?
-                </DialogTitle>
-                <DialogContent></DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={() => this.closeDeleteWarn()}
-                    color="primary"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={() => this.deleteList()}
-                    color="primary"
-                    autoFocus
-                  >
-                    Delete
-                  </Button>
-                </DialogActions>
-              </Dialog>
-
+              <DeleteListDialog
+                closeDeleteWarn={this.closeDeleteWarn}
+                deleteWarn={deleteWarn}
+                title={title}
+                deleteList={this.deleteList}
+              />
               <div className="save-btn-container">
                 <Button
                   className="btn"

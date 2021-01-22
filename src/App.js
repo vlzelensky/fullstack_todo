@@ -8,6 +8,7 @@ import TodoComponent from "./components/TodoComponent";
 import CheckEmailComponent from "./components/UpdatePasswordComponent/checkemail";
 import NewListComponent from "./components/NewListComponent/index";
 import NavBar from "./components/NavBarComponent";
+import UserPageComponent from "./components/UserPageComponent";
 import { initApi } from "./services/api";
 import axios from "axios";
 import api from "./services/api";
@@ -42,7 +43,8 @@ function App() {
           setLoading(false);
         })
         .catch((e) => {
-          alert(e);
+          setLoading(false);
+          logOut();
         });
     } else {
       setLoading(false);
@@ -61,7 +63,6 @@ function App() {
         setTitles(res.data);
       } catch (e) {
         console.warn(e.status);
-        console.log(e);
       }
     }
   }
@@ -81,9 +82,9 @@ function App() {
             path="/login"
             render={(props) => <LoginComponent onLogin={saveUser} {...props} />}
           />
+          <Route path="/change_password" component={CheckEmailComponent} />
           {!user && <Redirect to="/login" />}
 
-          <Route path="/change_password" component={CheckEmailComponent} />
           <Route
             path="/todo"
             render={(props) => (
@@ -95,6 +96,10 @@ function App() {
             render={(props) => (
               <NewListComponent {...props} getTodoTitles={getTodoTitles} />
             )}
+          />
+          <Route
+            path="/userpage"
+            render={(props) => <UserPageComponent {...props} user={user} />}
           />
           <Redirect exact from="/" to="/todo" />
         </Switch>
