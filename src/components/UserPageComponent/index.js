@@ -4,6 +4,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import api from "../../services/api";
 import MD5 from "crypto-js/md5";
+import "./index.css";
 
 export default function UserPageComponent(props) {
   const user = props.user;
@@ -58,6 +59,7 @@ export default function UserPageComponent(props) {
     if (Object.values(changes).length) {
       await api().put("/api/user", changes);
       props.history.push("/todo");
+      props.getUser();
     }
   };
 
@@ -84,26 +86,31 @@ export default function UserPageComponent(props) {
         </div>
         <span>First Name</span>
         <TextField
+          className="user-page-input"
           onChange={(event) => setFirstName(event.target.value)}
           defaultValue={props.user.firstName}
         ></TextField>
         <span>Last Name</span>
         <TextField
+          className="user-page-input"
           onChange={(event) => setLastName(event.target.value)}
           defaultValue={props.user.lastName}
         ></TextField>
         <span>Email</span>
         <TextField
+          className="user-page-input"
           onChange={(event) => setEmail(event.target.value)}
           defaultValue={props.user.email}
         ></TextField>
         <span>Password</span>
         <TextField
+          className="user-page-input"
           onChange={(event) => setPassword(event.target.value)}
           type="password"
         ></TextField>
         <span>Repeat password</span>
         <TextField
+          className="user-page-input"
           onChange={(event) => setRepeatPassword(event.target.value)}
           type="password"
         ></TextField>

@@ -7,7 +7,7 @@ import ChangePassComponent from "./changepass";
 class CheckEmailComponent extends React.Component {
   state = {
     email: "",
-    renderFlag: true
+    renderFlag: true,
   };
 
   changeRenderFlag = () => {
@@ -49,37 +49,39 @@ class CheckEmailComponent extends React.Component {
 
   renderCheckEmail() {
     return (
-      <div className="main-box">
+      <div>
         <h1>change password</h1>
-        <div className="field">
-          <TextField
-            autoComplete="off"
-            id="standard-basic"
-            variant="filled"
-            label="Enter your email"
-            className="form"
-            onChange={(event) =>
-              this.setState({ email: event.target.value.trim() })
-            }
-            value={this.state.email}
-          />
-          <div className="btns">
-            <Button
-              variant="contained"
-              color="default"
-              className="btn"
-              onClick={this.renderLogin}
-            >
-              Back
-            </Button>
-            <Button
-              variant="contained"
-              color="default"
-              className="btn"
-              onClick={this.checkEmail}
-            >
-              Next
-            </Button>
+        <div className="main-box">
+          <div className="field">
+            <TextField
+              autoComplete="off"
+              id="standard-basic"
+              variant="filled"
+              label="Enter your email"
+              className="form"
+              onChange={(event) =>
+                this.setState({ email: event.target.value.trim() })
+              }
+              value={this.state.email}
+            />
+            <div className="btns">
+              <Button
+                variant="contained"
+                color="default"
+                className="btn"
+                onClick={this.renderLogin}
+              >
+                Back
+              </Button>
+              <Button
+                variant="contained"
+                color="default"
+                className="btn"
+                onClick={this.checkEmail}
+              >
+                Next
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -89,7 +91,13 @@ class CheckEmailComponent extends React.Component {
   render() {
     const { renderFlag } = this.state;
     return (
-      <>{renderFlag ? this.renderCheckEmail() : <ChangePassComponent changeRenderFlag={this.changeRenderFlag} />}</>
+      <>
+        {renderFlag ? (
+          this.renderCheckEmail()
+        ) : (
+          <ChangePassComponent changeRenderFlag={this.changeRenderFlag} />
+        )}
+      </>
     );
   }
 }

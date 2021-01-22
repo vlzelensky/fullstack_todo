@@ -56,9 +56,14 @@
     }
 
   .MuiButton-root.btn  {
-    background-color: #d5d5d5;
+    background-color: #00987e;
     line-height: 1.50;
     margin-right: 7px;
+  }
+
+  .btn span {
+    color: #fff;
+    font-weight: bold;
   }
 
   .MuiFormControl-root.form {

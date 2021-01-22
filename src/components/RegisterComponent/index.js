@@ -31,7 +31,7 @@ class RegisterComponent extends React.Component {
       });
       return;
     }
-    if (!passwordSample.test(password) || password.length < 6 ) {
+    if (!passwordSample.test(password) || password.length < 6) {
       this.setState({
         errorMessage:
           "Password must contain only latin letters, at least 1 uppercase letter, 1 lowercase letter, 1 numeral and be more than 6 characters",
@@ -77,87 +77,89 @@ class RegisterComponent extends React.Component {
   render() {
     const { errorMessage, warning, vertical, horizontal } = this.state;
     return (
-      <div className="main-box">
-        <Snackbar anchorOrigin={{ vertical, horizontal }} open={warning}>
-          <Alert onClose={this.handleClose} severity="error">
-            {errorMessage}
-          </Alert>
-        </Snackbar>
+      <div>
         <h1>registration</h1>
-        <div className="field">
-          <TextField
-            autoComplete="off"
-            label="First name"
-            className="form"
-            onChange={(event) =>
-              this.setState({ firstName: event.target.value.trim() })
-            }
-            value={this.state.firstName}
-          />
-        </div>
-        <div className="field">
-          <TextField
-            autoComplete="none"
-            label="Last name"
-            className="form"
-            onChange={(event) =>
-              this.setState({ lastName: event.target.value.trim() })
-            }
-            value={this.state.lastName}
-          />
-        </div>
-        <div className="field">
-          <TextField
-            autoComplete="none"
-            label="Email"
-            className="form"
-            onChange={(event) =>
-              this.setState({ email: event.target.value.trim() })
-            }
-            value={this.state.email}
-          />
-        </div>
-        <div className="field">
-          <TextField
-            autoComplete="none"
-            label="Password"
-            type="password"
-            className="form"
-            onChange={(event) =>
-              this.setState({ password: event.target.value.trim() })
-            }
-            value={this.state.password}
-          />
-        </div>
-        <div className="field">
-          <TextField
-            autoComplete="none"
-            label="Repeat password"
-            type="password"
-            className="form"
-            onChange={(event) =>
-              this.setState({ repeatPassword: event.target.value.trim() })
-            }
-            value={this.state.repeatPassword}
-          />
-        </div>
-        <div className="btns">
-          <Button
-            variant="contained"
-            color="default"
-            className="btn reg_btn"
-            onClick={this.props.changeStatus}
-          >
-            Back
-          </Button>
-          <Button
-            variant="contained"
-            color="default"
-            className="btn reg_btn"
-            onClick={this.saveUserData}
-          >
-            Create account
-          </Button>
+        <div className="main-box">
+          <Snackbar anchorOrigin={{ vertical, horizontal }} open={warning}>
+            <Alert onClose={this.handleClose} severity="error">
+              {errorMessage}
+            </Alert>
+          </Snackbar>
+          <div className="field">
+            <TextField
+              autoComplete="off"
+              label="First name"
+              className="form"
+              onChange={(event) =>
+                this.setState({ firstName: event.target.value.trim() })
+              }
+              value={this.state.firstName}
+            />
+          </div>
+          <div className="field">
+            <TextField
+              autoComplete="none"
+              label="Last name"
+              className="form"
+              onChange={(event) =>
+                this.setState({ lastName: event.target.value.trim() })
+              }
+              value={this.state.lastName}
+            />
+          </div>
+          <div className="field">
+            <TextField
+              autoComplete="none"
+              label="Email"
+              className="form"
+              onChange={(event) =>
+                this.setState({ email: event.target.value.trim() })
+              }
+              value={this.state.email}
+            />
+          </div>
+          <div className="field">
+            <TextField
+              autoComplete="none"
+              label="Password"
+              type="password"
+              className="form"
+              onChange={(event) =>
+                this.setState({ password: event.target.value.trim() })
+              }
+              value={this.state.password}
+            />
+          </div>
+          <div className="field">
+            <TextField
+              autoComplete="none"
+              label="Repeat password"
+              type="password"
+              className="form"
+              onChange={(event) =>
+                this.setState({ repeatPassword: event.target.value.trim() })
+              }
+              value={this.state.repeatPassword}
+            />
+          </div>
+          <div className="btns">
+            <Button
+              variant="contained"
+              color="default"
+              className="btn reg_btn"
+              onClick={this.props.changeStatus}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              color="default"
+              className="btn reg_btn"
+              onClick={this.saveUserData}
+            >
+              Create account
+            </Button>
+          </div>
         </div>
       </div>
     );

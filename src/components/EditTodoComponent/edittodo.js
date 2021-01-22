@@ -101,8 +101,8 @@ class EditTodoPage extends React.Component {
     } catch (e) {
       console.log(e);
     }
-    this.setState({ editMode: false });
     this.getTodoList();
+    this.setState({ editMode: false });
   };
 
   getTodoList = async () => {
@@ -174,6 +174,14 @@ class EditTodoPage extends React.Component {
     this.saveTask(this.state.newTaskText.trim());
   };
 
+  handleCheck = (id) => {
+    this.setState((state) => ({
+      tasks: state.tasks.map((task) =>
+        task._id === id ? { ...task, checked: !task.checked } : task
+      ),
+    }));
+  };
+
   render() {
     if (this.state.isLoading === true) {
       return (
@@ -214,6 +222,7 @@ class EditTodoPage extends React.Component {
               </div>
 
               <Tasks
+                handleCheck={this.handleCheck}
                 deleteTask={this.deleteTask}
                 editMode={editMode}
                 changeTaskChecked={this.changeTaskChecked}

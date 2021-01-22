@@ -6,7 +6,7 @@ export default function Tasks(props) {
 
   return props.tasks.map((task, i) => {
     return (
-      <TaskElement task={task} i={i} deleteTask={props.deleteTask} />
+      <TaskElement handleCheck={props.handleCheck} key={task._id} task={task} i={i} deleteTask={props.deleteTask} />
     );
   });
 }

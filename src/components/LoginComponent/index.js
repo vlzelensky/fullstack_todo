@@ -80,56 +80,60 @@ class LoginComponent extends React.Component {
   renderLogin = () => {
     const { warning, warningMessage, vertical, horizontal } = this.state;
     return (
-      <div className="main-box">
-        <Snackbar anchorOrigin={{ vertical, horizontal }} open={warning}>
-          <Alert onClose={this.handleClose} severity="error">
-            {warningMessage}
-          </Alert>
-        </Snackbar>
-
+      <div>
         <h1>login</h1>
-        <div className="field">
-          <TextField
-            autoComplete="off"
-            label="Email"
-            className="form"
-            onChange={(event) =>
-              this.setState({ email: event.target.value.trim() })
-            }
-            onKeyDown={(event) => this.signInOnEnter(event)}
-          />
-        </div>
-        <div className="field">
-          <TextField
-            type="password"
-            label="Password"
-            className="form"
-            onChange={(event) =>
-              this.setState({ password: event.target.value.trim() })
-            }
-            onKeyDown={(event) => this.signInOnEnter(event)}
-          />
-        </div>
-        <div className="btns">
-          <Button
-            variant="contained"
-            onClick={this.signIn}
-            color="default"
-            className="btn"
-          >
-            Sign In
-          </Button>
-          <div className="span-container">
-            <span>or</span>
-            <span className="a1" onClick={this.changeStatus}>
-              create an account
-            </span>
+        <div className="main-box">
+          <Snackbar anchorOrigin={{ vertical, horizontal }} open={warning}>
+            <Alert onClose={this.handleClose} severity="error">
+              {warningMessage}
+            </Alert>
+          </Snackbar>
+
+          <div className="field">
+            <TextField
+              variant="outlined"
+              autoComplete="off"
+              label="Email"
+              className="form"
+              onChange={(event) =>
+                this.setState({ email: event.target.value.trim() })
+              }
+              onKeyDown={(event) => this.signInOnEnter(event)}
+            />
           </div>
-        </div>
-        <div className="link-container">
-          <Link href={"/change_password"} className="a2">
-            forgot your password?
-          </Link>
+          <div className="field">
+            <TextField
+              variant="outlined"
+              type="password"
+              label="Password"
+              className="form"
+              onChange={(event) =>
+                this.setState({ password: event.target.value.trim() })
+              }
+              onKeyDown={(event) => this.signInOnEnter(event)}
+            />
+          </div>
+          <div className="btns">
+            <Button
+              variant="contained"
+              onClick={this.signIn}
+              color="default"
+              className="btn"
+            >
+              Sign In
+            </Button>
+            <div className="span-container">
+              <span>or</span>
+              <span className="a1" onClick={this.changeStatus}>
+                create an account
+              </span>
+            </div>
+          </div>
+          <div className="link-container">
+            <Link href={"/change_password"} className="a2">
+              forgot your password?
+            </Link>
+          </div>
         </div>
       </div>
     );

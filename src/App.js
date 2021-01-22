@@ -28,7 +28,7 @@ function App() {
     localStorage.removeItem("jwtToken");
   }
 
-  useEffect(() => {
+  const getUser = () => {
     const token = localStorage.getItem("jwtToken");
     if (token) {
       axios
@@ -49,6 +49,10 @@ function App() {
     } else {
       setLoading(false);
     }
+  }
+  
+  useEffect(() => {
+    getUser()
   }, []);
 
   async function getTodoTitles() {
@@ -99,7 +103,7 @@ function App() {
           />
           <Route
             path="/userpage"
-            render={(props) => <UserPageComponent {...props} user={user} />}
+            render={(props) => <UserPageComponent {...props} user={user} getUser={getUser} />}
           />
           <Redirect exact from="/" to="/todo" />
         </Switch>
