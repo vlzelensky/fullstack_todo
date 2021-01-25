@@ -116,7 +116,10 @@ export default function UserPageComponent(props) {
         ></TextField>
       </div>
       <div className="save-btn-container">
-        <Button onClick={() => changeData()}>Save</Button>
+        <Button className="btn cancel-btn" onClick={() => {props.history.push("/todo")}}>Cancel</Button>
+        <Button className="btn" onClick={() => changeData()}>
+          Save
+        </Button>
       </div>
     </div>
   );

@@ -4,11 +4,7 @@
 }
 
 .menu {
-    display:flex;
-    height: 100vh;
-    width: 20vw;
-    background-color:#fff;
-    display: none;
+    margin-top: 8px;
 }
 
 .content {
@@ -27,11 +23,9 @@
     justify-content: space-between;
     align-items: center;
     color: #fff;
-    margin-right: 30px;
 }
 
 .logo {
-    margin-left: 30px;
     font-family: "Sansita Swashed";
     font-size: 20px;
     color: #fff;
@@ -42,13 +36,11 @@
 
 .user-name {
     margin: 0 10px;
-    font-family: "Sansita swashed";
+    font-family: "Lobster";
+    font-size: 20px;
     color:#fff
 }
 
-.menu_link:active .menu {
-    display: flex;
-}
 
 .todo {
     display: flex;
@@ -106,6 +98,8 @@
 .task-container {
     display: flex;
     align-items: center;
+    width: 80%;
+    margin-left: 8%;
 }
 
 .task-title {

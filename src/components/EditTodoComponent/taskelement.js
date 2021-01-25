@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Checkbox, TextField, Button } from "@material-ui/core";
+import { Checkbox, TextField } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DeleteTaskDialog from "./deletetaskdialog";
 import api from "../../services/api";
@@ -32,21 +32,20 @@ export default function TaskElement(props) {
     }
   }
 
-  
-
   return (
     <div key={task._id} className="tasks">
       <Checkbox
+        className="checkbox"
         checked={task.checked}
         onChange={() => {
-          toggleDone(task.text, !task.checked, task._id)
-          props.handleCheck(task._id)
+          toggleDone(task.text, !task.checked, task._id);
+          props.handleCheck(task._id);
         }}
       />
-      <TextField disabled={true} value={task.text}></TextField>
-      <Button onClick={() => openWarn()}>
+      <TextField className="task-input" disabled={true} value={task.text}></TextField>
+      <div className="deletetask-btn" onClick={() => openWarn()}>
         <DeleteIcon />
-      </Button>
+      </div>
       <DeleteTaskDialog
         deleteTask={props.deleteTask}
         openWar={openWarn}

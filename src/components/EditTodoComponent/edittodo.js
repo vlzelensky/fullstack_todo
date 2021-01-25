@@ -174,6 +174,11 @@ class EditTodoPage extends React.Component {
     this.saveTask(this.state.newTaskText.trim());
   };
 
+  addNewTaskOnBlur = (event) => {
+    const value = event.target.value.trim();
+      this.saveTask(value);
+  }
+
   handleCheck = (id) => {
     this.setState((state) => ({
       tasks: state.tasks.map((task) =>
@@ -187,7 +192,6 @@ class EditTodoPage extends React.Component {
       return (
         <div className="main">
           <div className="container">
-            <div className="menu"></div>
             <div className="content">
               <div className="main-box">
                 <CircularProgress />
@@ -204,64 +208,69 @@ class EditTodoPage extends React.Component {
       list: { title },
     } = this.state;
     return (
-      <div className="main">
-        <div className="container">
-          <div className="content">
-            <div className="main-box">
-              <div className="input-title">
-                <TextField
-                  className="input-title-editlist"
-                  value={title}
-                  disabled
-                ></TextField>
-              </div>
+      <div>
+        <h1 className="list-title">{title}</h1>
+        <div className="main">
+          <div className="container">
+            <div className="content">
+              <div className="edit-container">
+                <div className="input-title"></div>
 
-              <div className="buttons">
-                <Button onClick={this.activateEditMode}>Edit</Button>
-                <Button onClick={() => this.openDeleteWarn()}>Delete</Button>
-              </div>
+                <div className="buttons">
+                  <Button className="btn" onClick={this.activateEditMode}>
+                    Edit
+                  </Button>
+                  <Button
+                    className="btn deletelist-btn"
+                    onClick={() => this.openDeleteWarn()}
+                  >
+                    Delete
+                  </Button>
+                </div>
 
-              <Tasks
-                handleCheck={this.handleCheck}
-                deleteTask={this.deleteTask}
-                editMode={editMode}
-                changeTaskChecked={this.changeTaskChecked}
-                changeTaskText={this.changeTaskText}
-                tasks={tasks}
-              />
-              <div className="new-task">
-                <TextField
-                  onChange={this.changeNewTaskText}
-                  value={this.state.newTaskText}
-                  onKeyDown={this.addNewTaskOnEnter}
+                <Tasks
+                  handleCheck={this.handleCheck}
+                  deleteTask={this.deleteTask}
+                  editMode={editMode}
+                  changeTaskChecked={this.changeTaskChecked}
+                  changeTaskText={this.changeTaskText}
+                  tasks={tasks}
                 />
-                <Button onClick={this.addNewTaskOnClick}>
-                  <AddBoxIcon />
-                </Button>
-              </div>
-              <EditDialog
-                activateEditMode={this.activateEditMode}
-                open={this.state.editMode}
-                editTask={this.editTask}
-                editTitle={this.editTitle}
-                saveChanges={this.saveChanges}
-                isChangesExist={this.state.isChangesExist}
-                title={title}
-                tasks={tasks}
-              />
-              <DeleteListDialog
-                closeDeleteWarn={this.closeDeleteWarn}
-                deleteWarn={deleteWarn}
-                title={title}
-                deleteList={this.deleteList}
-              />
-              <div className="save-btn-container">
-                <Button
-                  className="btn"
-                  onClick={() => this.props.history.push("/todo")}
-                >
-                  Back
-                </Button>
+                <div className="new-task">
+                  <TextField
+                    onChange={this.changeNewTaskText}
+                    value={this.state.newTaskText}
+                    onKeyDown={this.addNewTaskOnEnter}
+                    onBlur={this.addNewTaskOnBlur}
+                  />
+                  <div className="newtask-btn" onClick={this.addNewTaskOnClick}>
+                    <AddBoxIcon />
+                  </div>
+                </div>
+                <EditDialog
+                  activateEditMode={this.activateEditMode}
+                  open={this.state.editMode}
+                  editTask={this.editTask}
+                  editTitle={this.editTitle}
+                  saveChanges={this.saveChanges}
+                  isChangesExist={this.state.isChangesExist}
+                  title={title}
+                  tasks={tasks}
+                />
+                <DeleteListDialog
+                  closeDeleteWarn={this.closeDeleteWarn}
+                  deleteWarn={deleteWarn}
+                  title={title}
+                  deleteList={this.deleteList}
+                />
+                <div className="save-btn-container">
+                  <Button
+                    className="btn cancel-btn"
+                    onClick={() => this.props.history.push("/todo")}
+                  >
+                    Back
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

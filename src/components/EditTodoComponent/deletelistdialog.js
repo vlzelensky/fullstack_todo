@@ -14,10 +14,19 @@ export default function DeleteListDialog(props) {
         Are you sure you want to delete "{props.title}"?
       </DialogTitle>
       <DialogActions>
-        <Button onClick={() => props.closeDeleteWarn()} color="primary">
+        <Button
+          className="btn cancel-btn"
+          onClick={() => props.closeDeleteWarn()}
+          color="primary"
+        >
           Cancel
         </Button>
-        <Button onClick={() => props.deleteList()} color="primary" autoFocus>
+        <Button
+          className="btn deletelist-btn"
+          onClick={() => props.deleteList()}
+          color="primary"
+          autoFocus
+        >
           Delete
         </Button>
       </DialogActions>

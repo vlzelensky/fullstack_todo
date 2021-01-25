@@ -3,6 +3,11 @@
   src: url(/src/static/fonts/SansitaSwashed-VariableFont_wght.ttf);
  }
 
+ @font-face {
+   font-family: Lobster;
+   src: url(/src/static/fonts/Lobster-Regular.ttf)
+ }
+
 body {
   background: url(static/img/background.jpg);
   background-repeat: no-repeat;
@@ -63,7 +68,7 @@ h1 {
 
 .MuiDrawer-paper {
   width: 10vw;
-    padding: 30px 30px;
+    padding: 30px 15px;
   padding-bottom: 30px;
   display: flex;
   
@@ -79,10 +84,16 @@ h1 {
   margin-bottom: 2vh;
 }
 
+
+
 .MuiButton-root:hover {
   background-color:  #036d5b !important;
 }
 
 .MuiInputBase-input {
   border-color: red;
+}
+
+.list-title {
+  font-family: "Lobster";
 }

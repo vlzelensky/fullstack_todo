@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, TextField, DialogTitle, Dialog } from "@material-ui/core";
+import DialogActions from "@material-ui/core/DialogActions";
 import EditTasks from "./editTasks";
 
 export default function EditDialog(props) {
-
   return (
     <Dialog
       aria-labelledby="simple-dialog-title"
@@ -21,10 +21,18 @@ export default function EditDialog(props) {
         editMode={props.open}
         tasks={props.tasks}
       />
-      <Button onClick={props.activateEditMode}>Cancel</Button>
-      <Button disabled={!props.isChangesExist} onClick={props.saveChanges}>
-        Save
-      </Button>
+      <DialogActions>
+        <Button className="btn cancel-btn" onClick={props.activateEditMode}>
+          Cancel
+        </Button>
+        <Button
+          className="btn"
+          disabled={!props.isChangesExist}
+          onClick={props.saveChanges}
+        >
+          Save
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }

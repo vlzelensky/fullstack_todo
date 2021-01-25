@@ -50,6 +50,16 @@ class NewListComponent extends React.Component {
     this.setState({ title: event.target.value });
   };
 
+  saveNewTaskOnBlur = (event) => {
+    const { tasks } = this.state;
+    this.setState((state) =>
+      tasks.push({
+        text: "",
+        checked: false,
+      })
+    );
+  };
+
   saveNewTask = (event) => {
     const { tasks } = this.state;
     if (event.key === "Enter") {
@@ -67,7 +77,7 @@ class NewListComponent extends React.Component {
       <div onKeyDown={this.saveNewTask}>
         <div className="container">
           <div className="content">
-            <div className="main-box new-list-box">
+            <div className="new-list-box">
               <div className="title-container">
                 <ChooseTitle
                   title={this.state.title}
@@ -75,15 +85,23 @@ class NewListComponent extends React.Component {
                 />
               </div>
               <NewTask
+                saveNewTaskOnBlur={this.saveNewTaskOnBlur}
                 tasks={this.state.tasks}
                 saveTaskValue={this.saveTaskValue}
               />
               <div className="save-btn-container">
                 <Link href="/todo">
-                  <Button onClick={this.saveTodoList}>Cancel</Button>
+                  <Button
+                    className="btn cancel-btn"
+                    onClick={this.saveTodoList}
+                  >
+                    Cancel
+                  </Button>
                 </Link>
 
-                <Button onClick={this.saveTodoList}>Save</Button>
+                <Button className="btn" onClick={this.saveTodoList}>
+                  Save
+                </Button>
               </div>
             </div>
           </div>

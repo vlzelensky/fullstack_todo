@@ -1,33 +1,48 @@
 import React from "react";
 import { withRouter } from "react-router";
-import axios from "axios";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 import { TextField, Button } from "@material-ui/core";
+import api from "../../services/api"
 
 class ChangePassComponent extends React.Component {
   state = {
     newPassword: "",
     repeatNewPassword: "",
     renderFlag: true,
+    warning: false,
+    warningMessage: "",
+    vertical: "top",
+    horizontal: "center",
   };
+
+  handleClose = () => {
+    this.setState({ warning: false });
+  }
 
   changePassword = async () => {
     const passwordSample = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/;
     if (!passwordSample.test(this.state.newPassword)) {
-      alert(
-        "Password must contain only latin letters, at least 1 uppercase letter, 1 lowercase letter, 1 numeral"
-      );
+      this.setState({
+        warningMessage:
+          "Password must contain only latin letters, at least 1 uppercase letter, 1 lowercase letter, 1 numeral",
+      });
+      this.setState({ warning: true });
       return;
     }
     if (Object.values(this.state).some((value) => value === "")) {
       return;
     }
     if (this.state.newPassword.length < 6) {
-      alert("password length must be more than 6 characters");
+      this.setState({
+        warningMessage: "Password length must be more than 6 characters",
+      });
+      this.setState({ warning: true });
       return;
     }
     if (this.state.newPassword === this.state.repeatNewPassword) {
       try {
-        await axios
+        await api()
           .put("/api/change_password", {
             email: this.state.email,
             newPassword: this.state.newPassword,
@@ -46,18 +61,24 @@ class ChangePassComponent extends React.Component {
         console.warn(e);
       }
     } else {
-      alert("passwords don't match");
+      this.setState({ warningMessage: "Passwords don't match" });
+      this.setState({ warning: true });
     }
   };
 
   render() {
+    const { vertical, horizontal, warningMessage, warning } = this.state;
     return (
       <div>
+        <Snackbar anchorOrigin={{ vertical, horizontal }} open={warning}>
+          <Alert onClose={this.handleClose} severity="error">
+            {warningMessage}
+          </Alert>
+        </Snackbar>
         <h1>change password</h1>
         <div className="main-box">
           <div className="field">
             <TextField
-              id="standard-basic"
               type="password"
               variant="outlined"
               label="New password"
@@ -70,7 +91,6 @@ class ChangePassComponent extends React.Component {
           </div>
           <div className="field">
             <TextField
-              id="standard-basic"
               type="password"
               variant="outlined"
               label="Repeat password"

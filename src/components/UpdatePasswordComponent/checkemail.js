@@ -1,13 +1,19 @@
 import React from "react";
 import { withRouter } from "react-router";
-import axios from "axios";
 import { Button, TextField } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 import ChangePassComponent from "./changepass";
+import api from "../../services/api";
 
 class CheckEmailComponent extends React.Component {
   state = {
     email: "",
     renderFlag: true,
+    warning: false,
+    warningMessage: "",
+    vertical: "top",
+    horizontal: "center",
   };
 
   changeRenderFlag = () => {
@@ -24,11 +30,12 @@ class CheckEmailComponent extends React.Component {
       return;
     }
     if (!emailSample.test(this.state.email)) {
-      alert("Enter valid email");
+      this.setState({ warningMessage: "Enter a valid email adress" });
+      this.setState({ warning: true });
       return;
     }
     try {
-      await axios
+      await api()
         .post("/api/check_email", {
           email: this.state.email,
         })
@@ -40,16 +47,27 @@ class CheckEmailComponent extends React.Component {
           }
         })
         .catch((e) => {
-          alert(e + ", this user doesn't exist");
+          this.setState({ warningMessage: "This user doesn't exist" });
+          this.setState({ warning: true });
         });
     } catch (e) {
       console.warn(e);
     }
   };
 
+  handleClose = () => {
+    this.setState({ warning: false });
+  }
+
   renderCheckEmail() {
+    const {vertical, horizontal, warningMessage, warning} = this.state
     return (
       <div>
+        <Snackbar anchorOrigin={{ vertical, horizontal }} open={warning}>
+          <Alert onClose={this.handleClose} severity="error">
+            {warningMessage}
+          </Alert>
+        </Snackbar>
         <h1>change password</h1>
         <div className="main-box">
           <div className="field">
@@ -95,8 +113,8 @@ class CheckEmailComponent extends React.Component {
         {renderFlag ? (
           this.renderCheckEmail()
         ) : (
-            <ChangePassComponent changeRenderFlag={this.changeRenderFlag} />
-          )}
+          <ChangePassComponent changeRenderFlag={this.changeRenderFlag} />
+        )}
       </>
     );
   }

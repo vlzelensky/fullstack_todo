@@ -3,6 +3,7 @@ import { Button, Link, Avatar } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import MenuIcon from "@material-ui/icons/Menu";
+import Divider from "@material-ui/core/Divider";
 import EditIcon from "@material-ui/icons/Edit";
 import Titles from "../TodoComponent/titles";
 import "./index.css";
@@ -24,6 +25,10 @@ export default function NavBar(props) {
     }
   }, [user]);
 
+  // const openDashboard = () => {
+  //   props.history.push("/todo")
+  // }
+
   return (
     <div className="nav-bar">
       <Drawer
@@ -33,21 +38,29 @@ export default function NavBar(props) {
         onClose={() => setOpen(false)}
       >
         <div className="img-container">
-          <div className="img-box">
-            <img alt="" src={navbarimage}></img>
-          </div>
+          {" "}
+          <Link href={"/todo"}>
+            <img
+              onClick={() => console.log}
+              className="drawer-img"
+              alt=""
+              src={navbarimage}
+            ></img>
+          </Link>
         </div>
-
+        <Divider />
         <div className="titles">
           <Titles titles={props.titles} />
         </div>
+        <Divider />
         <div className="addTodo-navbar">
           <Link href="/new_list">
-            <Button>
+            <Button className="btn">
               <AddCircleOutlineOutlinedIcon />
             </Button>
           </Link>
         </div>
+        <Divider />
         {user && (
           <div className="user-container">
             <div className="avatar">
@@ -61,7 +74,7 @@ export default function NavBar(props) {
               </span>
             </div>
             <div>
-              <Link href="/userpage">
+              <Link className="edituser-btn" href="/userpage">
                 <EditIcon />
               </Link>
             </div>
@@ -71,18 +84,21 @@ export default function NavBar(props) {
       <div className="top-bar">
         <div className="logo">
           {user && (
-            <Button
-              onClick={() => toggleDrawer()}
-              color="default"
-              className="btn"
-            >
-              <MenuIcon />
-            </Button>
+            <div className="menu">
+              <Button
+                onClick={() => toggleDrawer()}
+                color="default"
+                className="btn"
+              >
+                <MenuIcon />
+              </Button>
+            </div>
           )}
-
-          <Link href={"/todo"}>
-            <h1>to-do list</h1>
-          </Link>
+          <div className="todo-logo">
+            <Link href={"/todo"}>
+              <h1>to-do list</h1>
+            </Link>
+          </div>
         </div>
         {user && (
           <div className="user">

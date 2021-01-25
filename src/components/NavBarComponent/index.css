@@ -1,5 +1,5 @@
 .nav-bar {
-  margin: 0 200px;
+  margin: 0 15vw;
 }
 
 .img-box {
@@ -10,8 +10,8 @@
 }
 
 .titles {
-  height: 70vh;
-  padding: 5vh 0;
+  height: 60vh;
+  padding: 3vh 0;
 }
 
 .user-container {
@@ -20,6 +20,7 @@
 }
 
 .addTodo-navbar {
+  margin-bottom: 4vh;
   display: flex;
   justify-content: center;
 }
@@ -39,4 +40,28 @@
   display: flex;
   flex-direction: column;
   margin: auto;
+}
+
+.MuiLink-root.edituser-btn {
+  display: flex;
+    height: 22px;
+    margin-top: 11px;
+    color: grey;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: 0.4s;
+}
+
+.MuiLink-root.edituser-btn:hover {
+  color: rgb(51, 51, 51)
+}
+
+.drawer-img {
+  width: 7vw;
+  border-radius: 10px
+}
+
+.MuiDivider-root {
+  width: 100% ;
+  margin: 10px 0 !important;
 }

@@ -16,7 +16,6 @@ class MainComponent extends React.Component {
     this.props.history.push("/todo/" + id);
   };
 
-
   componentDidMount = () => {
     this.getTodoList();
     this.props.getTodoTitles();
@@ -26,7 +25,7 @@ class MainComponent extends React.Component {
     try {
       const res = await api().get("/api/todolist");
       this.setState({ lists: res.data });
-      this.setState({loading: false})
+      this.setState({ loading: false });
     } catch (e) {
       console.warn(e.status);
     }
@@ -36,9 +35,7 @@ class MainComponent extends React.Component {
     const { lists } = this.state;
 
     if (this.state.loading) {
-      return (
-        <CircularProgress/>
-      )
+      return <CircularProgress />;
     }
     return (
       <div className="main">
@@ -46,13 +43,11 @@ class MainComponent extends React.Component {
           <div className="content">
             <div className="lists-container">
               <Lists editList={this.editList} lists={lists} />
-              <Link href="/new_list"><Button
-                className="addTodo"
-                variant="contained"
-                color="default"
-              >
-                <AddCircleOutlineOutlinedIcon />
-              </Button></Link>
+              <Link href="/new_list">
+                <Button className="addTodo" variant="contained" color="default">
+                  <AddCircleOutlineOutlinedIcon />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

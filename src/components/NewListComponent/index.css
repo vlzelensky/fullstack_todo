@@ -19,8 +19,26 @@
 .save-btn-container {
     display: flex;
     justify-content: flex-end;
+    margin-top: 20px;
 }
 
 .new-list-box {
-    margin-top: 150px;
+    width: 300px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 25px 10px 10px 10px;
+    margin: 0 auto;
+    box-shadow: 0 2px 10px 0 #111015;
+}
+
+.MuiButton-root.cancel-btn {
+    background-color: rgb(126, 126, 126);
+}
+
+.MuiButton-root.cancel-btn:hover {
+    background-color: rgb(99, 94, 94) !important;
+}
+
+.newtask-container {
+    width: 100%;
 }
