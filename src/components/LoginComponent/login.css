@@ -30,7 +30,7 @@
   .a1 {
     font-family: 'Sans-serif';
     font-size: 15px;
-    color: rgb(67, 42, 177);
+    color: #424bb5;
     margin-top: 1px;
     margin-left: 5px;
     cursor: pointer;
@@ -83,3 +83,11 @@
     display: flex;
     justify-content: center;
   }
+
+ .MuiLink-root.MuTypography.a2{
+  color: #424bb5;
+ }
+
+ .MuiLink-root.a2:hover {
+   text-decoration: underline;
+ }

@@ -87,6 +87,7 @@ class RegisterComponent extends React.Component {
           </Snackbar>
           <div className="field">
             <TextField
+              variant="outlined"
               autoComplete="off"
               label="First name"
               className="form"
@@ -98,6 +99,7 @@ class RegisterComponent extends React.Component {
           </div>
           <div className="field">
             <TextField
+              variant="outlined"
               autoComplete="none"
               label="Last name"
               className="form"
@@ -109,6 +111,7 @@ class RegisterComponent extends React.Component {
           </div>
           <div className="field">
             <TextField
+              variant="outlined"
               autoComplete="none"
               label="Email"
               className="form"
@@ -120,6 +123,7 @@ class RegisterComponent extends React.Component {
           </div>
           <div className="field">
             <TextField
+              variant="outlined"
               autoComplete="none"
               label="Password"
               type="password"
@@ -132,6 +136,7 @@ class RegisterComponent extends React.Component {
           </div>
           <div className="field">
             <TextField
+              variant="outlined"
               autoComplete="none"
               label="Repeat password"
               type="password"

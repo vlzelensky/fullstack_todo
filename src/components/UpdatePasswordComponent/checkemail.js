@@ -54,9 +54,9 @@ class CheckEmailComponent extends React.Component {
         <div className="main-box">
           <div className="field">
             <TextField
+              variant="outlined"
               autoComplete="off"
               id="standard-basic"
-              variant="filled"
               label="Enter your email"
               className="form"
               onChange={(event) =>
@@ -95,8 +95,8 @@ class CheckEmailComponent extends React.Component {
         {renderFlag ? (
           this.renderCheckEmail()
         ) : (
-          <ChangePassComponent changeRenderFlag={this.changeRenderFlag} />
-        )}
+            <ChangePassComponent changeRenderFlag={this.changeRenderFlag} />
+          )}
       </>
     );
   }

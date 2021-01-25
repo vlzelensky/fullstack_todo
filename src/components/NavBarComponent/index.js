@@ -74,7 +74,7 @@ export default function NavBar(props) {
             <Button
               onClick={() => toggleDrawer()}
               color="default"
-              className="open-menu"
+              className="btn"
             >
               <MenuIcon />
             </Button>

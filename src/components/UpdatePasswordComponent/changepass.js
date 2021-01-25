@@ -59,7 +59,7 @@ class ChangePassComponent extends React.Component {
             <TextField
               id="standard-basic"
               type="password"
-              variant="filled"
+              variant="outlined"
               label="New password"
               className="form"
               onChange={(event) =>
@@ -72,7 +72,7 @@ class ChangePassComponent extends React.Component {
             <TextField
               id="standard-basic"
               type="password"
-              variant="filled"
+              variant="outlined"
               label="Repeat password"
               className="form"
               onChange={(event) =>
